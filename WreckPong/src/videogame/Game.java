@@ -25,7 +25,7 @@ public class Game implements Runnable{
 //    private boolean paused;             // pause status
 //    private boolean death;              // death status
 //    private Player player;              // the player of the game
-//    private KeyManager keyManager;      // to manage the keyboard
+    private KeyManager keyManager;      // to manage the keyboard
 //    private FileManager fileManager;    // to load the file manager
 //    private int lives;                  // amount of lives left
 //    private int score;                  // score of the player
@@ -200,9 +200,9 @@ public class Game implements Runnable{
      * Getter for the key manager
      * @return the key manager of the game
      */
-//    public KeyManager getKeyManager() {
-//        return keyManager;
-//    }
+    public KeyManager getKeyManager() {
+        return keyManager;
+    }
     
      /**
      * Getter for the text loader
