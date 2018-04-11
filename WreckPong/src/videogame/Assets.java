@@ -13,7 +13,10 @@ import java.awt.image.BufferedImage;
  */
 public class Assets {
     public static BufferedImage background; // to store background image
-    public static BufferedImage player;     // to store the bar image
+    public static BufferedImage player1;     // to store the bar image
+    public static BufferedImage player1Cut[]; //player sheet
+
+    public static BufferedImage player2;     // to store the bar image
     public static BufferedImage enemy;     // to store the enemy image
 
     public static BufferedImage pause; // to store a background image

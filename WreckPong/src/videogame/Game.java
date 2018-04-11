@@ -8,7 +8,6 @@ package videogame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
 
 /**
  * @author Arturo Arenas Esparza (A00820982)
@@ -23,11 +22,16 @@ public class Game implements Runnable{
     private int height;                 // height of the window
     private Thread thread;              // thread to create the game
     private boolean running;            // to set the game
+<<<<<<< HEAD
     private Ball ball;                  // the wrecking ball
+=======
+    private Building building1;          //the player1 building of the game
+    private Building building2;           //the player2 building of the game
+>>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
 //    private boolean paused;             // pause status
 //    private boolean death;              // death status
 //    private Player player;              // the player of the game
-//    private KeyManager keyManager;      // to manage the keyboard
+    private KeyManager keyManager;      // to manage the keyboard
 //    private FileManager fileManager;    // to load the file manager
 //    private int lives;                  // amount of lives left
 //    private int score;                  // score of the player
@@ -44,15 +48,26 @@ public class Game implements Runnable{
         this.title = title;
         this.width = width;
         this.height = height;
+<<<<<<< HEAD
+=======
+        running = false;
+>>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
     }
     
     /**
      * To get the width of the game window
      * @return an <code>int</code> value with the width
      */
+<<<<<<< HEAD
     public int getWidth() {
         return width;
     }
+=======
+   public int getWidth() {
+       return width;
+   }
+    
+>>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
 
     /**
      * To get the height of the game window
@@ -61,6 +76,17 @@ public class Game implements Runnable{
     public int getHeight() {
         return height;
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Gets the amount of lives left 
+     * @return the amount of lives left
+     */
+//    public int getLives() {
+//        return lives;
+//    }
+>>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
 
 //    public int getScore() {
 //        return score;
@@ -134,9 +160,16 @@ public class Game implements Runnable{
      * initializing the display window of the game
      */
     private void init() {
+<<<<<<< HEAD
          display = new Display(title, getWidth(), getHeight());
          ball = new Ball(800, 50, 50, this); 
 //         Assets.init();
+=======
+         display = new Display(title, getWidth(), getHeight());  
+         building1 = new Building(12,0,120,640, this);
+         building2 = new Building(892,0,120,640, this);
+         Assets.init();
+>>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
     }
     
     /**
@@ -155,7 +188,11 @@ public class Game implements Runnable{
         long now;
         // initializing last time to the computer time in nanosecs
         long lastTime = System.nanoTime();
+<<<<<<< HEAD
         while (running) {
+=======
+           while (running) {
+>>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
             // setting the time now to the actual time
             now = System.nanoTime();
             // acumulating to delta the difference between times in timeTick units
@@ -163,6 +200,7 @@ public class Game implements Runnable{
             // updating the last time
             lastTime = now;
             
+<<<<<<< HEAD
             // if delta is positive we tick the game
             if (delta >= 1) {
                 tick();
@@ -170,6 +208,12 @@ public class Game implements Runnable{
                 delta--;
             }
  //               if(!death){
+=======
+            tick();
+//            // if delta is positive we tick the game
+//           if (delta >= 1) {
+//                if(!death){
+>>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
 //                    tick();
 //                }
 //                else{
@@ -186,14 +230,16 @@ public class Game implements Runnable{
         render(); // in case we want to display a losing or winning picture
         // stop(); we should use something like thread.sleep() and then close
     }
+           
+    }
 
     /**
      * Getter for the key manager
      * @return the key manager of the game
      */
-//    public KeyManager getKeyManager() {
-//        return keyManager;
-//    }
+    public KeyManager getKeyManager() {
+        return keyManager;
+    }
     
      /**
      * Getter for the text loader
@@ -226,7 +272,11 @@ public class Game implements Runnable{
      */
     private void render() {
         // get the buffer strategy from the display
+<<<<<<< HEAD
         bs = display.getCanvas().getBufferStrategy();
+=======
+       bs = display.getCanvas().getBufferStrategy();
+>>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
         /* if it is null, we define one with 3 buffers to display images of
         the game, if not null, then we display every image of the game but
         after clearing the Rectanlge, getting the graphic object from the 
@@ -237,6 +287,7 @@ public class Game implements Runnable{
             display.getCanvas().createBufferStrategy(3);
         }
         else
+<<<<<<< HEAD
         {
             g = bs.getDrawGraphics();          
             // render the elements of the game
@@ -244,6 +295,17 @@ public class Game implements Runnable{
             g.fillRect(0, 0, width, height);
             if(running){
                 ball.render(g);
+=======
+         {
+           g = bs.getDrawGraphics();  
+           building1.render(g);
+           building2.render(g);
+           bs.show();
+           g.dispose();
+           
+//            // render the elements of the game
+//            if(running){
+>>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
 //                if(paused){
 //                     g.drawImage(Assets.pause, 0, 0, width, height, null);
 //                }
@@ -266,9 +328,15 @@ public class Game implements Runnable{
 //                else{
 //                    g.drawImage(Assets.lose, 0, 0, getWidth() + 100, getHeight(), null);
 //                }
+<<<<<<< HEAD
             }
             bs.show();
             g.dispose();
+=======
+//            }
+//            bs.show();
+//            g.dispose();
+>>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
         }
        
     }

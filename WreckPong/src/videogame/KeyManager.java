@@ -13,8 +13,10 @@ import java.awt.event.KeyListener;
  * @author Sergio Sanchez Martinez (A00809693)
  */
 public class KeyManager implements KeyListener {
-    public boolean left;    // flag to move left the bar
-    public boolean right;   // flag to move right the bar
+    public boolean p1up;    // flag to move palyer1 top
+    public boolean p1down;   // flag to move palyer1 down
+    public boolean p2up;    // flag to move palyer2 top
+    public boolean p2down;   // flag to move palyer1 down
     public boolean space;   // flag to space
     private boolean pause;  // flag to pause the game
     private boolean pauseEnabled; // flag to know the pause
@@ -134,8 +136,11 @@ public class KeyManager implements KeyListener {
      * to enable or disable moves on every tick
      */
     public void tick() {
-        left = keys[KeyEvent.VK_LEFT];
-        right = keys[KeyEvent.VK_RIGHT];
+        p1up = keys[KeyEvent.VK_UP];
+        p2up = keys[KeyEvent.VK_DOWN];
+        p1down = keys[KeyEvent.VK_A];
+        p2down = keys[KeyEvent.VK_Z];
+        
         space = keys[KeyEvent.VK_SPACE];
         pause = keys[KeyEvent.VK_P];
         save = keys[KeyEvent.VK_S];
