@@ -52,7 +52,7 @@ public class KeyManager implements KeyListener {
     }
 
     public void setSave(boolean save) {
-        keys[KeyEvent.VK_S] = save;
+        //keys[KeyEvent.VK_S] = save;
     }
 
     public void setLoad(boolean load) {
@@ -102,17 +102,18 @@ public class KeyManager implements KeyListener {
                 keys[KeyEvent.VK_P] = true;
                 pauseEnabled = false;
             }
-        }
+        }/*
         else if(e.getKeyCode() == KeyEvent.VK_S){
             if(saveEnabled){
                 keys[KeyEvent.VK_S] = true;
                 saveEnabled = false;
             }
-        }
+        }*/
         else{
             // set true to every key pressed
             keys[e.getKeyCode()] = true;
-        }
+            System.out.println("Pressing!"); 
+        }       
     }
     
 
@@ -125,10 +126,10 @@ public class KeyManager implements KeyListener {
         // set false to every key released
         if(e.getKeyCode() == KeyEvent.VK_P){
             pauseEnabled = true;
-        }
+        }/*
         else if(e.getKeyCode() == KeyEvent.VK_S){
             saveEnabled = true;
-        }
+        }*/
         keys[e.getKeyCode()] = false;
     }
     
@@ -137,14 +138,14 @@ public class KeyManager implements KeyListener {
      */
     public void tick() {
         p1up = keys[KeyEvent.VK_UP];
-        p2up = keys[KeyEvent.VK_DOWN];
-        p1down = keys[KeyEvent.VK_A];
-        p2down = keys[KeyEvent.VK_Z];
+        p1down = keys[KeyEvent.VK_DOWN];
+        p2up = keys[KeyEvent.VK_W];
+        p2down = keys[KeyEvent.VK_S];
         
-        space = keys[KeyEvent.VK_SPACE];
+        //space = keys[KeyEvent.VK_SPACE];
         pause = keys[KeyEvent.VK_P];
-        save = keys[KeyEvent.VK_S];
-        load = keys[KeyEvent.VK_L];
-        restart = keys[KeyEvent.VK_R];
+        //save = keys[KeyEvent.VK_S];
+        //load = keys[KeyEvent.VK_L];
+        //restart = keys[KeyEvent.VK_R];
     }
 }

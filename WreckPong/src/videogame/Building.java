@@ -23,7 +23,11 @@ public class Building extends Item{
         super(x,y,width,height);
         this.game = game;
     
-        }
+    }
+    
+    void damage(){
+        // TODO: Damage the building
+    }
     
     @Override
     public void tick() {

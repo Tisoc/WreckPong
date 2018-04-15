@@ -22,20 +22,17 @@ public class Game implements Runnable{
     private int height;                 // height of the window
     private Thread thread;              // thread to create the game
     private boolean running;            // to set the game
-<<<<<<< HEAD
     private Ball ball;                  // the wrecking ball
-=======
     private Building building1;          //the player1 building of the game
     private Building building2;           //the player2 building of the game
->>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
-//    private boolean paused;             // pause status
+    private boolean paused;             // pause status
 //    private boolean death;              // death status
-//    private Player player;              // the player of the game
+    private Elevator player1;           // the main player of the game
+    private Elevator player2;           // the secondary player of the game
     private KeyManager keyManager;      // to manage the keyboard
 //    private FileManager fileManager;    // to load the file manager
 //    private int lives;                  // amount of lives left
 //    private int score;                  // score of the player
-//    private TextLoader textloader;      // to print text
 //    final private int LIVES;            // initial amount of lives
     
     /**
@@ -48,26 +45,17 @@ public class Game implements Runnable{
         this.title = title;
         this.width = width;
         this.height = height;
-<<<<<<< HEAD
-=======
+        keyManager = new KeyManager();
         running = false;
->>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
     }
     
     /**
      * To get the width of the game window
      * @return an <code>int</code> value with the width
      */
-<<<<<<< HEAD
     public int getWidth() {
         return width;
     }
-=======
-   public int getWidth() {
-       return width;
-   }
-    
->>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
 
     /**
      * To get the height of the game window
@@ -76,25 +64,26 @@ public class Game implements Runnable{
     public int getHeight() {
         return height;
     }
-<<<<<<< HEAD
-=======
-
-    /**
-     * Gets the amount of lives left 
-     * @return the amount of lives left
-     */
-//    public int getLives() {
-//        return lives;
-//    }
->>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
 
 //    public int getScore() {
 //        return score;
 //    }
-//
-//    public Player getPlayer() {
-//        return player;
-//    }
+    
+    /**
+     * Getter for player 1
+     * @return the player 1
+     */
+    public Elevator getPlayer1() {
+        return player1;
+    }
+    
+    /**
+     * Getter for player 2
+     * @return the player 2
+     */
+    public Elevator getPlayer2() {
+        return player2;
+    }
 
 
     /**
@@ -126,50 +115,18 @@ public class Game implements Runnable{
 //    }
     
     /**
-     * Resets initial positions of the elements of the game
-     */
-//    public void restart(){
-//         //
-//    }
-    
-    
-//    public void loadingGame(int lives, int score, int playerPosX, int playerPosY, int bulletsSize, int[] BulletsPosX, int[] BulletsPosY, boolean[] BulletsFalling,
-//                     int barriersSize, int[] BarriersPosX, int[] BarriersPosY, int[] BarriersPower, int enemiesSize, int[] EnemiesPosX, int[] EnemiesPosY, int[] EnemiesType, boolean[] EnemiesFront){
-//        setLives(lives);
-//        setScore(score);
-//        getPlayer().setX(playerPosX);
-//        getPlayer().setY(playerPosY);
-//        bullets.clear();
-//        for(int i = 0; i < bulletsSize; i++){
-//            Bullet b = new Bullet(BulletsPosX[i], BulletsPosY[i], 20, 20, BulletsFalling[i], this);
-//            bullets.add(b);
-//        }
-//        barriers.clear();
-//        for(int i = 0; i < barriersSize; i++){
-//            Barrier b = new Barrier(BarriersPosX[i], BarriersPosY[i], 100, 125, BarriersPower[i], this);
-//            barriers.add(b);
-//        }
-//        enemies.clear();
-//        for(int i = 0; i < enemiesSize; i++){
-//            Enemy e = new Enemy(EnemiesPosX[i], EnemiesPosY[i], getHeight() / 3 / 5  + 5, getHeight() / 3 / 5  - 10, 100, EnemiesType[i], EnemiesFront[i], this);
-//            enemies.add(e);
-//        }
-//    }
-    
-    /**
      * initializing the display window of the game
      */
     private void init() {
-<<<<<<< HEAD
          display = new Display(title, getWidth(), getHeight());
          ball = new Ball(800, 50, 50, this); 
-//         Assets.init();
-=======
-         display = new Display(title, getWidth(), getHeight());  
-         building1 = new Building(12,0,120,640, this);
-         building2 = new Building(892,0,120,640, this);
+         // Assets.init();
+         building1 = new Building(12, 0, 120, 640, this);
+         building2 = new Building(892, 0, 120, 640, this);
+         player1 = new Elevator(126, 50, 36, 120, true, this);
+         player2 = new Elevator(886, 50, 36, 120, false, this);
          Assets.init();
->>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
+         display.getJframe().addKeyListener(keyManager);
     }
     
     /**
@@ -188,11 +145,7 @@ public class Game implements Runnable{
         long now;
         // initializing last time to the computer time in nanosecs
         long lastTime = System.nanoTime();
-<<<<<<< HEAD
         while (running) {
-=======
-           while (running) {
->>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
             // setting the time now to the actual time
             now = System.nanoTime();
             // acumulating to delta the difference between times in timeTick units
@@ -200,37 +153,15 @@ public class Game implements Runnable{
             // updating the last time
             lastTime = now;
             
-<<<<<<< HEAD
             // if delta is positive we tick the game
             if (delta >= 1) {
                 tick();
                 render();
                 delta--;
             }
- //               if(!death){
-=======
-            tick();
-//            // if delta is positive we tick the game
-//           if (delta >= 1) {
-//                if(!death){
->>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
-//                    tick();
-//                }
-//                else{
-//                    keyManager.tick();
-//                    if(getKeyManager().isRestart()){
-//                        setDeath(false);
-//                        restart();
-//                    }
-//                }
-//                render();
-//                delta --;
-//            }
         }
         render(); // in case we want to display a losing or winning picture
         // stop(); we should use something like thread.sleep() and then close
-    }
-           
     }
 
     /**
@@ -241,30 +172,40 @@ public class Game implements Runnable{
         return keyManager;
     }
     
-     /**
-     * Getter for the text loader
-     * @return the text loader of the game
-     */    
-//    public TextLoader getTextLoader(){
-//        return textloader;
-//    }
-    
     /**
      * Updates the elements of the game
      */
     private void tick() {
-//        keyManager.tick();
-//        if(getKeyManager().isPause()){
-//            getKeyManager().setPause(false);
-//            paused = !paused;
-//        }
-//        if(!paused){
-//            if(getKeyManager().isLoad()){
-//                FileManager.loadFile(this);
-//            }
-//            // ticking the enemies
-//            player.tick();
-        ball.tick();
+        getKeyManager().tick();
+        if(getKeyManager().isPause()){
+            getKeyManager().setPause(false);
+            paused = !paused;
+        }
+        if(!paused){
+            // tick the elements of the game
+            if(getKeyManager().isLoad()){
+                FileManager.loadFile(this);
+            }
+            player1.tick();
+            player2.tick();
+            ball.tick();      
+            // check for ball vs building1 collision
+            if(ball.intersects(building1)){
+                ball.setXvel(ball.getXvel() * (-1));
+                building1.damage();
+            }
+            // check for ball vs building2 collision
+            else if(ball.intersects(building2)){
+                ball.setXvel(ball.getXvel() * (-1));
+                building2.damage();
+            }
+            else{
+                // check for ball vs player collision
+                if(ball.intersects(player1) || ball.intersects(player2)){
+                    ball.setXvel(ball.getXvel() * (-1));
+                }      
+            }
+        }
     }
     
      /**
@@ -272,11 +213,7 @@ public class Game implements Runnable{
      */
     private void render() {
         // get the buffer strategy from the display
-<<<<<<< HEAD
         bs = display.getCanvas().getBufferStrategy();
-=======
-       bs = display.getCanvas().getBufferStrategy();
->>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
         /* if it is null, we define one with 3 buffers to display images of
         the game, if not null, then we display every image of the game but
         after clearing the Rectanlge, getting the graphic object from the 
@@ -286,59 +223,24 @@ public class Game implements Runnable{
         if (bs == null) {
             display.getCanvas().createBufferStrategy(3);
         }
-        else
-<<<<<<< HEAD
-        {
+        else{
             g = bs.getDrawGraphics();          
             // render the elements of the game
             g.setColor(Color.white);
             g.fillRect(0, 0, width, height);
             if(running){
                 ball.render(g);
-=======
-         {
-           g = bs.getDrawGraphics();  
-           building1.render(g);
-           building2.render(g);
-           bs.show();
-           g.dispose();
-           
-//            // render the elements of the game
-//            if(running){
->>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
-//                if(paused){
-//                     g.drawImage(Assets.pause, 0, 0, width, height, null);
-//                }
-//                else if(this.isDeath()){
-//                    g.drawImage(Assets.restart, 0, 0, width, height, null);
-//                    
-//                }else{
-//                    g.drawImage(Assets.background, 0, 0, width, height, null);
-//                    // render the player
-//                    //player.render(g);
-// 
-//                    player.render(g);                   
-//                }
-            }
-            else{
-//                // render lose or win screen
-//                if(enemies.size() == 0){
-//                    g.drawImage(Assets.win, 0, 0, width, height, null);
-//                }
-//                else{
-//                    g.drawImage(Assets.lose, 0, 0, getWidth() + 100, getHeight(), null);
-//                }
-<<<<<<< HEAD
+                g = bs.getDrawGraphics();  
+                building1.render(g);
+                building2.render(g);
+                player1.render(g);
+                player2.render(g);
+                bs.show();
+                g.dispose();
             }
             bs.show();
             g.dispose();
-=======
-//            }
-//            bs.show();
-//            g.dispose();
->>>>>>> 465f4192f11f03c6b55cd20d997a46a5924bade3
         }
-       
     }
     
     /**

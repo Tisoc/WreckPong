@@ -5,6 +5,7 @@
  */
 package videogame;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -52,29 +53,31 @@ public class Elevator extends Item{
      */
     @Override
     public void tick() {  
-        // moving player1 depending on keys
-        if (game.getKeyManager().p1up) {
-           setY(getY() - 6);
+        // moving players depending on keys
+        if(type){
+            if (game.getKeyManager().p1up) {
+               setY(getY() - 6);
+            }
+            if (game.getKeyManager().p1down) {
+               setY(getY() + 6);
+            }
         }
-        if (game.getKeyManager().p1down) {
-           setY(getY() + 6);
-        }
-
-        // moving player1 depending on keys
-        if (game.getKeyManager().p2up) {
-           setY(getY() - 6);
-        }
-        if (game.getKeyManager().p2down) {
-           setY(getY() + 6);
+        else{
+            if (game.getKeyManager().p2up) {
+               setY(getY() - 6);
+            }
+            if (game.getKeyManager().p2down) {
+               setY(getY() + 6);
+            }
         }
 
         // collision with walls
-//        if (getY() + 100 >= game.getWidth()) {
-//            setY(game.getWidth() - 100);
-//        }
-//        else if (getY() <= 0) {
-//            setY(0);
-//        }
+        if (getY() + 100 >= game.getWidth()) {
+            setY(game.getWidth() - 100);
+        }
+        else if (getY() <= 0) {
+            setY(0);
+        }
     }
 
     /**
@@ -83,13 +86,15 @@ public class Elevator extends Item{
      */
     @Override
     public void render(Graphics g) {
-        if(type)
-        {
-            g.drawImage(Assets.player1, getX(), getY(), getWidth(), getHeight(), null);
-            
+        if(type) {
+            g.setColor(Color.green);
+            g.fillRect(getX(), getY(), getWidth(), getHeight());
+            // g.drawImage(Assets.player1, getX(), getY(), getWidth(), getHeight(), null);
         }
         else{
-            g.drawImage(Assets.player2, getX(), getY(), getWidth(), getHeight(), null);
+            g.setColor(Color.ORANGE);
+            g.fillRect(getX(), getY(), getWidth(), getHeight());
+            // g.drawImage(Assets.player2, getX(), getY(), getWidth(), getHeight(), null);
         }
 
         //g.drawImage(animationPlayer.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
