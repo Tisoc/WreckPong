@@ -118,15 +118,14 @@ public class Game implements Runnable{
      * initializing the display window of the game
      */
     private void init() {
-         display = new Display(title, getWidth(), getHeight());
-         ball = new Ball(800, 50, 50, this); 
-         // Assets.init();
-         building1 = new Building(12, 0, 120, 640, this);
-         building2 = new Building(892, 0, 120, 640, this);
-         player1 = new Elevator(126, 50, 36, 120, true, this);
-         player2 = new Elevator(886, 50, 36, 120, false, this);
-         Assets.init();
-         display.getJframe().addKeyListener(keyManager);
+        Assets.init();
+        display = new Display(title, getWidth(), getHeight());
+        ball = new Ball(800, 50, 50, this); 
+        building1 = new Building(12, 0, 120, 640, this);
+        building2 = new Building(892, 0, 120, 640, this);
+        player1 = new Elevator(40, 50, 125, 125, true, this);
+        player2 = new Elevator(860, 50, 125, 125, false, this);
+        display.getJframe().addKeyListener(keyManager);
     }
     
     /**
@@ -191,18 +190,18 @@ public class Game implements Runnable{
             ball.tick();      
             // check for ball vs building1 collision
             if(ball.intersects(building1)){
-                ball.setXvel(ball.getXvel() * (-1));
+                ball.turnAround();
                 building1.damage();
             }
             // check for ball vs building2 collision
             else if(ball.intersects(building2)){
-                ball.setXvel(ball.getXvel() * (-1));
+                ball.turnAround();
                 building2.damage();
             }
             else{
                 // check for ball vs player collision
                 if(ball.intersects(player1) || ball.intersects(player2)){
-                    ball.setXvel(ball.getXvel() * (-1));
+                    ball.turnAround();
                 }      
             }
         }

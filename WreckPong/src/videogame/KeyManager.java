@@ -112,7 +112,6 @@ public class KeyManager implements KeyListener {
         else{
             // set true to every key pressed
             keys[e.getKeyCode()] = true;
-            System.out.println("Pressing!"); 
         }       
     }
     

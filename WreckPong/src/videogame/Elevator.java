@@ -16,6 +16,7 @@ public class Elevator extends Item{
 
     private final Game game;  // Reference to the game
     private boolean type; // Reference if is player1 or player2
+    private Animation animation; // animation of the player
     
     /**
      * Constructor of the player
@@ -30,6 +31,12 @@ public class Elevator extends Item{
         super(x, y, width, height);
         this.type = type;
         this.game = game;
+        if(type){
+            this.animation = new Animation(Assets.player1Sprites, 100);
+        }
+        else{
+            this.animation = new Animation(Assets.player2Sprites, 100);
+        }
     }
 
     /**
@@ -53,6 +60,7 @@ public class Elevator extends Item{
      */
     @Override
     public void tick() {  
+        this.animation.tick();
         // moving players depending on keys
         if(type){
             if (game.getKeyManager().p1up) {
@@ -86,17 +94,6 @@ public class Elevator extends Item{
      */
     @Override
     public void render(Graphics g) {
-        if(type) {
-            g.setColor(Color.green);
-            g.fillRect(getX(), getY(), getWidth(), getHeight());
-            // g.drawImage(Assets.player1, getX(), getY(), getWidth(), getHeight(), null);
-        }
-        else{
-            g.setColor(Color.ORANGE);
-            g.fillRect(getX(), getY(), getWidth(), getHeight());
-            // g.drawImage(Assets.player2, getX(), getY(), getWidth(), getHeight(), null);
-        }
-
-        //g.drawImage(animationPlayer.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
+        g.drawImage(animation.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
     }
 }
