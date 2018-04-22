@@ -12,33 +12,36 @@ import java.awt.Graphics;
  *
  * @author Alvaro Marquez
  */
-public class Building extends Item{
+public class Bird extends Item {
     
-    private int width;
-    private int height;
     private Game game;
     
-    public Building(int x, int y, int width, int height, Game game) {
+     public Bird(int x, int y, int width, int height, Game game) {
         
         super(x,y,width,height);
         this.game = game;
     
     }
-    
-    void damage(){
-        // TODO: Damage the building
-    }
-    
-    @Override
+     
+      @Override
     public void tick() {
+               
+        if(getX() < 1025) {
+            setX(getX() + 10);
+        } else {
+             setX(getX() - 10);
+        }
+        
+        
         
     }
     
     @Override
     public void render(Graphics g) {
         
-        g.setColor(Color.blue);
+        g.setColor(Color.red);
         g.fillRect(getX(), getY(), getWidth(), getHeight());
                                              
     }
+    
 }
