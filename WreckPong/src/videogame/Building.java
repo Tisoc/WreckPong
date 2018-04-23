@@ -13,35 +13,29 @@ import java.awt.Graphics;
  * @author Alvaro Marquez
  */
 public class Building extends Item{
-    
     private int width;
     private int height;
+    private int strength;
     private Game game;
     
     public Building(int x, int y, int width, int height, Game game) {
         
         super(x,y,width,height);
         this.game = game;
-    
+        this.strength = 7;
     }
     
     void damage(){
-        // TODO: Damage the building
+        strength--;
     }
     
     @Override
     public void tick() {
-        
+        // Not much to do here
     }
     
     @Override
     public void render(Graphics g) {
-        
-        g.setColor(Color.blue);
-        g.fillRect(getX(), getY(), getWidth(), getHeight());
-                     
-          
-          
-        
+        g.drawImage(Assets.building1Sprites[7 - strength], getX(), getY(), getWidth(), getHeight(), null);
     }
 }

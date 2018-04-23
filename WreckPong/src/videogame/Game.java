@@ -225,11 +225,9 @@ public class Game implements Runnable{
         else{
             g = bs.getDrawGraphics();          
             // render the elements of the game
-            g.setColor(Color.white);
-            g.fillRect(0, 0, width, height);
             if(running){
+                g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null);
                 ball.render(g);
-                g = bs.getDrawGraphics();  
                 building1.render(g);
                 building2.render(g);
                 player1.render(g);
