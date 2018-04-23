@@ -23,17 +23,20 @@ public class Game implements Runnable{
     private Thread thread;              // thread to create the game
     private boolean running;            // to set the game
     private Ball ball;                  // the wrecking ball
-    private Building building1;          //the player1 building of the game
-    private Building building2;           //the player2 building of the game
+    private Building building1;         //the player1 building of the game
+    private Building building2;         //the player2 building of the game
     private boolean paused;             // pause status
-//    private boolean death;              // death status
+//  private boolean death;            // death status
+    private Bird bird1;                 //first bird
+    private Bird bird2;                 //second bird
     private Elevator player1;           // the main player of the game
     private Elevator player2;           // the secondary player of the game
     private KeyManager keyManager;      // to manage the keyboard
-//    private FileManager fileManager;    // to load the file manager
-//    private int lives;                  // amount of lives left
-//    private int score;                  // score of the player
-//    final private int LIVES;            // initial amount of lives
+    private int SpeedX;                     // the speed of the bird
+//  private FileManager fileManager;  // to load the file manager
+//  private int lives;                // amount of lives left
+//  private int score;                // score of the player
+//  final private int LIVES;          // initial amount of lives
     
     /**
      * to create title, width and height and set the game is still not running
@@ -125,8 +128,40 @@ public class Game implements Runnable{
         building2 = new Building(892, 0, 120, 640, this);
         player1 = new Elevator(40, 50, 125, 125, true, this);
         player2 = new Elevator(860, 50, 125, 125, false, this);
+        bird1 = new Bird(randomnessX(),randomnessY(),50,30,this);
+        bird2 = new Bird(randomnessX(),randomnessY(),50,30,this);
         display.getJframe().addKeyListener(keyManager);
     }
+    
+    private int randomnessY(){
+        
+        return (int) (Math.random() * 540) + 50;
+    }
+    
+    private int randomnessX(){
+        
+        int rand = (int) (Math.random() * 2);
+        int rand2 = (int) (Math.random() * 924) + 50;
+        
+        if(rand > 0) {
+                       
+            return rand2;
+            
+        } else {
+            return rand2 * -1;
+        }
+    }
+    
+   
+    public int setSpeedX(){
+       return this.SpeedX = SpeedX;
+    }
+    
+    public int getSpeedX(){
+        return SpeedX;
+    }
+    
+    
     
     /**
      * Runs the game
@@ -187,7 +222,9 @@ public class Game implements Runnable{
             }
             player1.tick();
             player2.tick();
-            ball.tick();      
+            ball.tick();
+            bird1.tick();
+            bird2.tick();
             // check for ball vs building1 collision
             if(ball.intersects(building1)){
                 ball.turnAround();
@@ -197,6 +234,8 @@ public class Game implements Runnable{
             else if(ball.intersects(building2)){
                 ball.turnAround();
                 building2.damage();
+            } else if(bird1.intersects(building1)){
+                
             }
             else{
                 // check for ball vs player collision
@@ -232,6 +271,8 @@ public class Game implements Runnable{
                 building2.render(g);
                 player1.render(g);
                 player2.render(g);
+                bird1.render(g);
+                bird2.render(g);
                 bs.show();
                 g.dispose();
             }
