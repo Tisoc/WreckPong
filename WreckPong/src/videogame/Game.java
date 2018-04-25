@@ -7,8 +7,8 @@ package videogame;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 /**
  * @author Arturo Arenas Esparza (A00820982)
@@ -24,25 +24,27 @@ public class Game implements Runnable{
     private Thread thread;              // thread to create the game
     private boolean running;            // to set the game
     private Ball ball;                  // the wrecking ball
-    private Building building1;         //the player1 building of the game
-    private Building building2;         //the player2 building of the game
+    private Building building1;         // the player1's building of the game
+    private Building building2;         // the player2's building of the game
     private boolean paused;             // pause status
-//  private boolean death;            // death status
+  private boolean death;            // death status
     private Bird bird1;                 //first bird
     private Bird bird2;                 //second bird
     private Elevator player1;           // the main player of the game
     private Elevator player2;           // the secondary player of the game
     private KeyManager keyManager;      // to manage the keyboard
     private MouseManager mouseManager; // to manage the mouse
+    private int livesP1;                // amount of lives left for player1
+    private int livesP2;                // amount of lives left for player2
+    private int score;                  // score of the player - COMPLETE SOLO MODE
+    private boolean solo;               // solo game status
+    final private int LIVES;            // initial amount of lives
     private boolean intro;              // to validate if the game is in the intro
     private boolean start;              // to validate if the game is in the intro
     private boolean game;               // to know if we are playing
     private Button btn1;
     private Button btn2;
-//    private FileManager fileManager;    // to load the file manager
-//    private int lives;                  // amount of lives left
-//    private int score;                  // score of the player
-//    final private int LIVES;            // initial amount of lives
+    private Button btn3;
     private int SpeedX;                     // the speed of the bird
     
     /**
@@ -58,9 +60,13 @@ public class Game implements Runnable{
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
         running = false;
+        death = false;
+        paused = false;
+        running = false;
         intro = false;
         start = true;
         game = false;
+        LIVES = 5;
     }
     
     /**
@@ -79,9 +85,9 @@ public class Game implements Runnable{
         return height;
     }
 
-//    public int getScore() {
-//        return score;
-//    }
+    public int getScore() {
+        return score;
+    }
     
     /**
      * Getter for player 1
@@ -104,17 +110,21 @@ public class Game implements Runnable{
      * Getter for the death status of the game
      * @return the death status of the game
      */
-//    public boolean isDeath() {
-//        return death;
-//    }
+    public boolean isDeath() {
+        return death;
+    }
 
     /**
      * Setter for the death status of the game
      * @param death the death status of the game
      */
-//    public void setDeath(boolean death) {
-//        this.death = death;
-//    }
+    public void setDeath(boolean death) {
+        this.death = death;
+    }
+    
+    public void setBall(Ball ball) {
+        this.ball = ball;
+    }    
 
     /**
      * Setter for the running status of the game
@@ -124,28 +134,28 @@ public class Game implements Runnable{
         this.running = running;
     }
 
-//    public void setScore(int score) {
-//        this.score = score;
-//    }
+    public void setScore(int score) {
+        this.score = score;
+    }
     
     /**
      * initializing the display window of the game
      */
     private void init() {
-         display = new Display(title, getWidth(), getHeight());
-         ball = new Ball(800, 50, 50, this); 
-         btn1 = new Button((this.getWidth()/2)-(336/2),400,336,80,1,this);
+        Assets.init();
+        display = new Display(title, getWidth(), getHeight());
+        ball = new Ball(800, 45, 57, this); 
+         btn1 = new Button((this.getWidth()/2)-(336/2)-180,400,336,80,1,this);
+         btn3 = new Button((this.getWidth()/2)-(336/2)+200,400,336,80,3,this);
          btn2 = new Button((this.getWidth()/2)-(456/2),this.getHeight()-120,456,80,2,this);
          
-         building1 = new Building(12, 0, 120, 640, this);
-         building2 = new Building(892, 0, 120, 640, this);
-//       player1 = new Elevator(126, 50, 36, 120, true, this);
-//       player2 = new Elevator(886, 50, 36, 120, false, this);
-         player1 = new Elevator(40, 50, 125, 125, true, this);
-         player2 = new Elevator(860, 50, 125, 125, false, this);
-         bird1 = new Bird(randomnessX(),randomnessY(),50,30,this);
+        building1 = new Building(12, 0, 120, 640, this);
+        building2 = new Building(892, 0, 120, 640, this);
+        player1 = new Elevator(60, 50, 94, 105, true, this);
+        player2 = new Elevator(870, 50, 94, 105, false, this);
+        bird1 = new Bird(randomnessX(),randomnessY(),50,30,this);
          bird2 = new Bird(randomnessX(),randomnessY(),50,30,this);
-        Assets.init();
+
          display.getJframe().addKeyListener(keyManager);
          display.getJframe().addMouseListener(mouseManager);
          display.getJframe().addMouseMotionListener(mouseManager);
@@ -249,6 +259,13 @@ public class Game implements Runnable{
                     if(btn1.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
                         start = false;
                         game = true;
+                        solo = true;
+                        
+                    }
+                    if(btn3.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
+                        start = false;
+                        game = true;
+                        solo = false;
                     }
                 }                
             }
@@ -316,6 +333,7 @@ public class Game implements Runnable{
                     g.drawImage(Assets.startBackground, 0, 0, width, height, null);                    
                     btn1.render(g);
                     btn2.render(g);
+                    btn3.render(g);
                     bs.show();
                     g.dispose();                    
                 }

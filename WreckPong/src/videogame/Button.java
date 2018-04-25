@@ -66,6 +66,9 @@ public class Button extends Item{
         }else if(type==2)
         {
          g.drawImage(Assets.button2, getX(), getY(), getWidth(), getHeight(), null);
+        }else if(type==3)
+        {
+         g.drawImage(Assets.button3, getX(), getY(), getWidth(), getHeight(), null);
         }
     }
 }
