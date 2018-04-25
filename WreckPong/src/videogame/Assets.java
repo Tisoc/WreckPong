@@ -12,7 +12,9 @@ import java.awt.image.BufferedImage;
  * @author Sergio Sanchez Martinez (A00809693)
  */
 public class Assets {
+    public static BufferedImage startBackground; // to store background image
     public static BufferedImage background; // to store background image
+
     public static BufferedImage player1;     // to store the player1 image
     public static BufferedImage player2;     // to store the player2 image
     public static BufferedImage building1;
@@ -29,6 +31,10 @@ public class Assets {
     public static BufferedImage lose; // to store a background image
     public static BufferedImage restart; // to store a background image
     
+    public static BufferedImage button1; // to store a background image
+    public static BufferedImage button2; // to store a background image
+    public static BufferedImage button3; // to store a background image
+
     public static BufferedImage[] player1Sprites;
     public static BufferedImage[] player2Sprites;
     public static BufferedImage[] building1Sprites;
@@ -38,12 +44,16 @@ public class Assets {
     public static BufferedImage[] health1Sprites;
     public static BufferedImage[] health2Sprites;
     
-    
         
     /**
      * initializing the images of the game
      */
     public static void init() {
+
+        startBackground = ImageLoader.loadImage("/images/intro_game.png");
+        button1 = ImageLoader.loadImage("/images/SOLO_Button.png");
+        button2 = ImageLoader.loadImage("/images/OPTIONS_Button.png");
+        button3 = ImageLoader.loadImage("/images/MULTI Button.png");
         background = ImageLoader.loadImage("/images/Background.png");
         player1 = ImageLoader.loadImage("/images/ElevatorP1.png");
         player2 = ImageLoader.loadImage("/images/ElevatorP2.png");
@@ -76,6 +86,7 @@ public class Assets {
         SpriteSheet spritesheetBird2 = new SpriteSheet(bird2);
         SpriteSheet spritesheetH1 = new SpriteSheet(health1);
         SpriteSheet spritesheetH2 = new SpriteSheet(health2);
+        
         // croping the pictures from the sheet into the array
         for(int i = 0; i < 2; i++){
             player1Sprites[i] = spritesheetP1.crop(0, i * 105, 94, 105);

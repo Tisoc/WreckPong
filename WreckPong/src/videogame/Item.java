@@ -108,9 +108,14 @@ public abstract class Item {
                 this.getBounds().intersects(((Item) obj).getBounds()));
     }
     
+    public boolean contains(int x, int y){
+        return (this.getBounds().contains(x, y));
+    }
+    
     private Rectangle getBounds() {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
+    
     /**
      * To update positions of the item for every tick
      */
