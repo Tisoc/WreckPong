@@ -12,8 +12,11 @@ import java.awt.image.BufferedImage;
  * @author Sergio Sanchez Martinez (A00809693)
  */
 public class Assets {
+    public static BufferedImage startBackground; // to store background image
     public static BufferedImage background; // to store background image
+
     public static BufferedImage player1;     // to store the player1 image
+    public static BufferedImage player1Cut[]; //player sheet
     public static BufferedImage player2;     // to store the player2 image
     public static BufferedImage building1;
     public static BufferedImage building2;
@@ -25,16 +28,13 @@ public class Assets {
     public static BufferedImage lose; // to store a background image
     public static BufferedImage restart; // to store a background image
     
-<<<<<<< HEAD
     public static BufferedImage button1; // to store a background image
     public static BufferedImage button2; // to store a background image
 
-=======
     public static BufferedImage[] player1Sprites;
     public static BufferedImage[] player2Sprites;
     public static BufferedImage[] building1Sprites;
     public static BufferedImage[] building2Sprites;
->>>>>>> 2e8b3f547ea5c711021c37ff30f910a749d0bf9d
     
     
         
@@ -42,19 +42,16 @@ public class Assets {
      * initializing the images of the game
      */
     public static void init() {
-<<<<<<< HEAD
 
-        background = ImageLoader.loadImage("/images/intro_game.png");
+        startBackground = ImageLoader.loadImage("/images/intro_game.png");
         button1 = ImageLoader.loadImage("/images/SOLO_Button.png");
         button2 = ImageLoader.loadImage("/images/OPTIONS_Button.png");
-=======
         background = ImageLoader.loadImage("/images/Background.png");
         player1 = ImageLoader.loadImage("/images/p1.png");
         player2 = ImageLoader.loadImage("/images/p2.png");
         building1 = ImageLoader.loadImage("/images/Building P1.png");
         building2 = ImageLoader.loadImage("/images/Building P1.png");
         ball = ImageLoader.loadImage("/images/Wrecking Ball.png");
->>>>>>> 2e8b3f547ea5c711021c37ff30f910a749d0bf9d
         
         player1Sprites = new BufferedImage[2];
         player2Sprites = new BufferedImage[2];
