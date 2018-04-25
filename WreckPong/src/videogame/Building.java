@@ -16,11 +16,12 @@ public class Building extends Item{
     private int width;
     private int height;
     private int strength;
+    private boolean mainPlayer;
     private Game game;
     
-    public Building(int x, int y, int width, int height, Game game) {
-        
+    public Building(int x, int y, int width, int height, boolean mainPlayer, Game game) {
         super(x,y,width,height);
+        this.mainPlayer = mainPlayer;
         this.game = game;
         this.strength = 7;
     }
@@ -32,6 +33,12 @@ public class Building extends Item{
     public int getStrength() {
         return strength;
     }
+
+    public boolean isMainPlayer() {
+        return mainPlayer;
+    }
+    
+    
  
     void damage(){
         strength--;
@@ -44,6 +51,11 @@ public class Building extends Item{
     
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.building1Sprites[7 - strength], getX(), getY(), getWidth(), getHeight(), null);
+        if(isMainPlayer()){
+            g.drawImage(Assets.building1Sprites[7 - strength], getX(), getY(), getWidth(), getHeight(), null);
+        }
+        else{
+            g.drawImage(Assets.building2Sprites[7 - strength], getX(), getY(), getWidth(), getHeight(), null);
+        }
     }
 }

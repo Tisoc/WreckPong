@@ -23,6 +23,7 @@ public class Assets {
     public static BufferedImage bird2;
     public static BufferedImage health1;
     public static BufferedImage health2;
+    public static BufferedImage crane;
 
     public static BufferedImage ball;     // to store the wrecking ball image
 
@@ -43,6 +44,7 @@ public class Assets {
     public static BufferedImage[] bird2Sprites;
     public static BufferedImage[] health1Sprites;
     public static BufferedImage[] health2Sprites;
+    public static BufferedImage[] craneSprites;
     
         
     /**
@@ -57,13 +59,14 @@ public class Assets {
         background = ImageLoader.loadImage("/images/Background.png");
         player1 = ImageLoader.loadImage("/images/ElevatorP1.png");
         player2 = ImageLoader.loadImage("/images/ElevatorP2.png");
-        building1 = ImageLoader.loadImage("/images/Building P1.png");
-        building2 = ImageLoader.loadImage("/images/Building P1.png");
+        building1 = ImageLoader.loadImage("/images/buildingP1.png");
+        building2 = ImageLoader.loadImage("/images/buildingP2.png");
         ball = ImageLoader.loadImage("/images/Wrecking Ball.png");
         bird1 = ImageLoader.loadImage("/images/Blue Bird.png");
         bird2 = ImageLoader.loadImage("/images/Green Bird.png");
         health1 = ImageLoader.loadImage("/images/Health P1.png");
         health2 = ImageLoader.loadImage("/images/Health P2.png");
+        crane = ImageLoader.loadImage("/images/Crane.png");
         
         player1Sprites = new BufferedImage[2];
         player2Sprites = new BufferedImage[2];

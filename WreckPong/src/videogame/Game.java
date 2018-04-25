@@ -145,8 +145,8 @@ public class Game implements Runnable{
         Assets.init();
         display = new Display(title, getWidth(), getHeight());
         ball = new Ball(800, 45, 57, this); 
-        building1 = new Building(12, 0, 120, 640, this);
-        building2 = new Building(892, 0, 120, 640, this);
+        building1 = new Building(12, 0, 120, 640, true, this);
+        building2 = new Building(892, 0, 120, 640, false, this);
         player1 = new Elevator(60, 50, 94, 105, true, this, false);
         player2 = new Elevator(870, 50, 94, 105, false, this, false);
         bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
@@ -165,8 +165,8 @@ public class Game implements Runnable{
     
     private void reset(){
         ball = new Ball(800, 45, 57, this); 
-        building1 = new Building(12, 0, 120, 640, this);
-        building2 = new Building(892, 0, 120, 640, this);
+        building1 = new Building(12, 0, 120, 640, true, this);
+        building2 = new Building(892, 0, 120, 640, false, this);
         player1 = new Elevator(60, 50, 94, 105, true, this, false);
         player2 = new Elevator(870, 50, 94, 105, false, this, true);
         bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
