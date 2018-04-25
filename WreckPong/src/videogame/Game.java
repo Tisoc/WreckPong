@@ -24,13 +24,16 @@ public class Game implements Runnable{
     private Thread thread;              // thread to create the game
     private boolean running;            // to set the game
     private Ball ball;                  // the wrecking ball
-    private Building building1;          //the player1 building of the game
-    private Building building2;           //the player2 building of the game
+    private Building building1;         //the player1 building of the game
+    private Building building2;         //the player2 building of the game
     private boolean paused;             // pause status
-//    private boolean death;              // death status
+//  private boolean death;            // death status
+    private Bird bird1;                 //first bird
+    private Bird bird2;                 //second bird
     private Elevator player1;           // the main player of the game
     private Elevator player2;           // the secondary player of the game
     private KeyManager keyManager;      // to manage the keyboard
+<<<<<<< HEAD
     private MouseManager mouseManager; // to manage the mouse
     private boolean intro;              // to validate if the game is in the intro
     private boolean start;              // to validate if the game is in the intro
@@ -41,6 +44,13 @@ public class Game implements Runnable{
 //    private int lives;                  // amount of lives left
 //    private int score;                  // score of the player
 //    final private int LIVES;            // initial amount of lives
+=======
+    private int SpeedX;                     // the speed of the bird
+//  private FileManager fileManager;  // to load the file manager
+//  private int lives;                // amount of lives left
+//  private int score;                // score of the player
+//  final private int LIVES;          // initial amount of lives
+>>>>>>> 2e8b3f547ea5c711021c37ff30f910a749d0bf9d
     
     /**
      * to create title, width and height and set the game is still not running
@@ -129,6 +139,7 @@ public class Game implements Runnable{
      * initializing the display window of the game
      */
     private void init() {
+<<<<<<< HEAD
          display = new Display(title, getWidth(), getHeight());
          ball = new Ball(800, 50, 50, this); 
          // Assets.init();
@@ -146,7 +157,49 @@ public class Game implements Runnable{
          display.getCanvas().addMouseListener(mouseManager);
          display.getCanvas().addMouseMotionListener(mouseManager);
          
+=======
+        Assets.init();
+        display = new Display(title, getWidth(), getHeight());
+        ball = new Ball(800, 50, 50, this); 
+        building1 = new Building(12, 0, 120, 640, this);
+        building2 = new Building(892, 0, 120, 640, this);
+        player1 = new Elevator(40, 50, 125, 125, true, this);
+        player2 = new Elevator(860, 50, 125, 125, false, this);
+        bird1 = new Bird(randomnessX(),randomnessY(),50,30,this);
+        bird2 = new Bird(randomnessX(),randomnessY(),50,30,this);
+        display.getJframe().addKeyListener(keyManager);
+>>>>>>> 2e8b3f547ea5c711021c37ff30f910a749d0bf9d
     }
+    
+    private int randomnessY(){
+        
+        return (int) (Math.random() * 540) + 50;
+    }
+    
+    private int randomnessX(){
+        
+        int rand = (int) (Math.random() * 2);
+        int rand2 = (int) (Math.random() * 924) + 50;
+        
+        if(rand > 0) {
+                       
+            return rand2;
+            
+        } else {
+            return rand2 * -1;
+        }
+    }
+    
+   
+    public int setSpeedX(){
+       return this.SpeedX = SpeedX;
+    }
+    
+    public int getSpeedX(){
+        return SpeedX;
+    }
+    
+    
     
     /**
      * Runs the game
@@ -205,6 +258,7 @@ public class Game implements Runnable{
             paused = !paused;
         }
         if(!paused){
+<<<<<<< HEAD
 
             if(intro)
             {
@@ -245,6 +299,34 @@ public class Game implements Runnable{
                         ball.setXvel(ball.getXvel() * (-1));
                     }      
                 }
+=======
+            // tick the elements of the game
+            if(getKeyManager().isLoad()){
+                FileManager.loadFile(this);
+            }
+            player1.tick();
+            player2.tick();
+            ball.tick();
+            bird1.tick();
+            bird2.tick();
+            // check for ball vs building1 collision
+            if(ball.intersects(building1)){
+                ball.turnAround();
+                building1.damage();
+            }
+            // check for ball vs building2 collision
+            else if(ball.intersects(building2)){
+                ball.turnAround();
+                building2.damage();
+            } else if(bird1.intersects(building1)){
+                
+            }
+            else{
+                // check for ball vs player collision
+                if(ball.intersects(player1) || ball.intersects(player2)){
+                    ball.turnAround();
+                }      
+>>>>>>> 2e8b3f547ea5c711021c37ff30f910a749d0bf9d
             }
         }
     }
@@ -267,6 +349,7 @@ public class Game implements Runnable{
         else{
             g = bs.getDrawGraphics();          
             // render the elements of the game
+<<<<<<< HEAD
             g.setColor(Color.white);
             g.fillRect(0, 0, width, height);
             if(running){                
@@ -293,6 +376,19 @@ public class Game implements Runnable{
                     bs.show();
                     g.dispose();
                 }
+=======
+            if(running){
+                g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null);
+                ball.render(g);
+                building1.render(g);
+                building2.render(g);
+                player1.render(g);
+                player2.render(g);
+                bird1.render(g);
+                bird2.render(g);
+                bs.show();
+                g.dispose();
+>>>>>>> 2e8b3f547ea5c711021c37ff30f910a749d0bf9d
             }
             bs.show();
             g.dispose();

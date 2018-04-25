@@ -15,8 +15,11 @@ import java.awt.Graphics;
 public class Ball extends Item{
     private int xvel;           // x-axis velocity
     private int ropeLength;     // The length of the rope
+    private int ropeLengthChange;
     private int difficulty = 4; // Defines the randomness of the rope length
     private Game game;          // Reference to the game
+    private int zoneSize;       // size of each zone
+    private int curZone;
 
     /**
      * Constructor of the ball
@@ -29,7 +32,10 @@ public class Ball extends Item{
         super(512 - width / 2, ropeLength - 292 - height, width, height);
         this.ropeLength = ropeLength;
         this.game = game;
-        xvel = 3;
+        xvel = 5;
+        zoneSize = game.getWidth() / 2;
+        curZone = 0;
+        ropeLengthChange = 0;
     }
 
     /**
@@ -95,14 +101,34 @@ public class Ball extends Item{
     public void setRopeLength(int ropeLength) {
         this.ropeLength = ropeLength;
     }
+    
+    public void turnAround(){
+        setXvel(getXvel() * (-1));
+        // we will also reset the zone size
+        zoneSize = game.getWidth() / ((int)(Math.random() * 4) + 1);
+        curZone = getX() / zoneSize;
+    }
 
     /**
      * Updates the attributes of the ball
      */
     @Override
     public void tick() {
-        // update the length of the rope depending on the difficulty
-        ropeLength += (int)(Math.random() * (double)getDifficulty() - getDifficulty() / 2.0);
+        // check what zone are we in
+        int newZone = getX() / zoneSize;
+        if(newZone != curZone){
+            curZone = newZone;
+            // change the rope length change rate
+            int newRopeLengthChange = (int)(Math.random() * 9 - 4);
+            ropeLengthChange = newRopeLengthChange;
+        }
+        setRopeLength(getRopeLength() + ropeLengthChange);
+        if(getY() + getHeight() + 5 >= game.getHeight()){
+            ropeLengthChange = -3;
+        }
+        else if(getY() <= 10){
+            ropeLengthChange = 3;
+        }
         // update x-axis coordinate
         setX( getX() + getXvel() );
         double l = (double)(getRopeLength());
@@ -118,9 +144,8 @@ public class Ball extends Item{
      */
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.red);
-        g.drawLine(getGame().getWidth() / 2, getGame().getHeight() - 932, getX() + getWidth() / 2, getY() + getHeight() / 2);
-        g.setColor(Color.blue);
-        g.fillRect(getX(), getY(), getWidth(), getHeight());
+        g.setColor(Color.black);
+        g.drawLine(getGame().getWidth() / 2, getGame().getHeight() - 932, getX() + getWidth() / 2 - 2, getY() + getHeight() / 2 - 25);
+        g.drawImage(Assets.ball, getX(), getY(), getWidth(), getHeight(), null);
     }
 }
