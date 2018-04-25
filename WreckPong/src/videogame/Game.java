@@ -7,6 +7,7 @@ package videogame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
 /**
@@ -30,6 +31,12 @@ public class Game implements Runnable{
     private Elevator player1;           // the main player of the game
     private Elevator player2;           // the secondary player of the game
     private KeyManager keyManager;      // to manage the keyboard
+    private MouseManager mouseManager; // to manage the mouse
+    private boolean intro;              // to validate if the game is in the intro
+    private boolean start;              // to validate if the game is in the intro
+    private boolean game;               // to know if we are playing
+    private Button btn1;
+    private Button btn2;
 //    private FileManager fileManager;    // to load the file manager
 //    private int lives;                  // amount of lives left
 //    private int score;                  // score of the player
@@ -46,7 +53,11 @@ public class Game implements Runnable{
         this.width = width;
         this.height = height;
         keyManager = new KeyManager();
+        mouseManager = new MouseManager();
         running = false;
+        intro = false;
+        start = true;
+        game = false;
     }
     
     /**
@@ -121,12 +132,20 @@ public class Game implements Runnable{
          display = new Display(title, getWidth(), getHeight());
          ball = new Ball(800, 50, 50, this); 
          // Assets.init();
+         btn1 = new Button((this.getWidth()/2)-(336/2),400,336,80,1,this);
+         btn2 = new Button((this.getWidth()/2)-(456/2),this.getHeight()-120,456,80,2,this);
+         
          building1 = new Building(12, 0, 120, 640, this);
          building2 = new Building(892, 0, 120, 640, this);
          player1 = new Elevator(126, 50, 36, 120, true, this);
          player2 = new Elevator(886, 50, 36, 120, false, this);
          Assets.init();
          display.getJframe().addKeyListener(keyManager);
+         display.getJframe().addMouseListener(mouseManager);
+         display.getJframe().addMouseMotionListener(mouseManager);
+         display.getCanvas().addMouseListener(mouseManager);
+         display.getCanvas().addMouseMotionListener(mouseManager);
+         
     }
     
     /**
@@ -144,7 +163,7 @@ public class Game implements Runnable{
         // define now to use inside the loop
         long now;
         // initializing last time to the computer time in nanosecs
-        long lastTime = System.nanoTime();
+        long lastTime = System.nanoTime();   
         while (running) {
             // setting the time now to the actual time
             now = System.nanoTime();
@@ -152,13 +171,13 @@ public class Game implements Runnable{
             delta += (now - lastTime) / timeTick;
             // updating the last time
             lastTime = now;
-            
-            // if delta is positive we tick the game
+        
+             // if delta is positive we tick the game
             if (delta >= 1) {
                 tick();
                 render();
                 delta--;
-            }
+             }
         }
         render(); // in case we want to display a losing or winning picture
         // stop(); we should use something like thread.sleep() and then close
@@ -172,6 +191,10 @@ public class Game implements Runnable{
         return keyManager;
     }
     
+    public MouseManager getMouseManager(){
+        return mouseManager;
+    }
+    
     /**
      * Updates the elements of the game
      */
@@ -182,28 +205,46 @@ public class Game implements Runnable{
             paused = !paused;
         }
         if(!paused){
-            // tick the elements of the game
-            if(getKeyManager().isLoad()){
-                FileManager.loadFile(this);
+
+            if(intro)
+            {
+                
             }
-            player1.tick();
-            player2.tick();
-            ball.tick();      
-            // check for ball vs building1 collision
-            if(ball.intersects(building1)){
-                ball.setXvel(ball.getXvel() * (-1));
-                building1.damage();
+            else if(start){
+                
+                if(this.getMouseManager().isLeft())
+                {
+                    if(btn1.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
+                        start = false;
+                        game = true;
+                    }
+                }                
             }
-            // check for ball vs building2 collision
-            else if(ball.intersects(building2)){
-                ball.setXvel(ball.getXvel() * (-1));
-                building2.damage();
-            }
-            else{
-                // check for ball vs player collision
-                if(ball.intersects(player1) || ball.intersects(player2)){
+            else if(game)
+            {                
+                // tick the elements of the game
+                if(getKeyManager().isLoad()){
+                    FileManager.loadFile(this);
+                }
+                player1.tick();
+                player2.tick();
+                ball.tick();      
+                // check for ball vs building1 collision
+                if(ball.intersects(building1)){
                     ball.setXvel(ball.getXvel() * (-1));
-                }      
+                    building1.damage();
+                }
+                // check for ball vs building2 collision
+                else if(ball.intersects(building2)){
+                    ball.setXvel(ball.getXvel() * (-1));
+                    building2.damage();
+                }
+                else{
+                    // check for ball vs player collision
+                    if(ball.intersects(player1) || ball.intersects(player2)){
+                        ball.setXvel(ball.getXvel() * (-1));
+                    }      
+                }
             }
         }
     }
@@ -228,15 +269,30 @@ public class Game implements Runnable{
             // render the elements of the game
             g.setColor(Color.white);
             g.fillRect(0, 0, width, height);
-            if(running){
-                ball.render(g);
-                g = bs.getDrawGraphics();  
-                building1.render(g);
-                building2.render(g);
-                player1.render(g);
-                player2.render(g);
-                bs.show();
-                g.dispose();
+            if(running){                
+                if(intro)
+                {                                        
+                    g.drawImage(Assets.background, 0, 0, width, height, null);                    
+                    bs.show();
+                    g.dispose();
+                }
+                else if(start){
+                    g.drawImage(Assets.background, 0, 0, width, height, null);                    
+                    btn1.render(g);
+                    btn2.render(g);
+                    bs.show();
+                    g.dispose();                    
+                }
+                else if(game){
+                    ball.render(g);
+                    g = bs.getDrawGraphics();  
+                    building1.render(g);
+                    building2.render(g);
+                    player1.render(g);
+                    player2.render(g);
+                    bs.show();
+                    g.dispose();
+                }
             }
             bs.show();
             g.dispose();

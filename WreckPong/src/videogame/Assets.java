@@ -24,6 +24,10 @@ public class Assets {
     public static BufferedImage lose; // to store a background image
     public static BufferedImage restart; // to store a background image
     
+    public static BufferedImage button1; // to store a background image
+    public static BufferedImage button2; // to store a background image
+
+    
     
         
     /**
@@ -31,6 +35,9 @@ public class Assets {
      */
     public static void init() {
 
+        background = ImageLoader.loadImage("/images/intro_game.png");
+        button1 = ImageLoader.loadImage("/images/SOLO_Button.png");
+        button2 = ImageLoader.loadImage("/images/OPTIONS_Button.png");
         
         //initializing the spriteSheets
 
