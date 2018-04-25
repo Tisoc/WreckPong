@@ -148,7 +148,7 @@ public class Game implements Runnable{
         building1 = new Building(12, 0, 120, 640, this);
         building2 = new Building(892, 0, 120, 640, this);
         player1 = new Elevator(60, 50, 94, 105, true, this, false);
-        player2 = new Elevator(870, 50, 94, 105, false, this, solo);
+        player2 = new Elevator(870, 50, 94, 105, false, this, false);
         bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
         bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
         livesP1 = LIVES;
@@ -242,16 +242,17 @@ public class Game implements Runnable{
                     start = false;
                     game = true;
                     solo = true;
-
+                    player2.setAutomatic(true);
                 }
                 if(btn3.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
                     start = false;
                     game = true;
                     solo = false;
+                    player2.setAutomatic(false);
                 }
             }                
         }
-        else if(game){       
+        else if(game){
             getKeyManager().tick();
             if(getKeyManager().isPause()){
                 getKeyManager().setPause(false);
