@@ -394,7 +394,16 @@ public class Game implements Runnable{
                     btn3.render(g);                  
                 }
                 else if(game){
-                    g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null);
+                    g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null); // 2 0 1
+                    if(ball.getY() < getHeight() / 3){
+                        g.drawImage(Assets.craneSprites[2], 400, 50, 512, 640, null);
+                    }
+                    else if(ball.getY() < getHeight() * 2 / 3){
+                        g.drawImage(Assets.craneSprites[0], 400, 50, 512, 640, null);
+                    }
+                    else{
+                        g.drawImage(Assets.craneSprites[1], 400, 50, 512, 640, null);
+                    }
                     g.drawImage(Assets.health1Sprites[5 - livesP1], 225, 10, 256, 40, null);
                     g.drawImage(Assets.health2Sprites[5 - livesP2], getWidth() - 225 - 256, 10, 256, 40, null);
                     ball.render(g);
