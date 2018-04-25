@@ -15,33 +15,65 @@ import java.awt.Graphics;
 public class Bird extends Item {
     
     private Game game;
+    boolean goingRight;
+    Animation animation;
+    int power;
     
-     public Bird(int x, int y, int width, int height, Game game) {
-        
+     public Bird(int x, int y, int width, int height, boolean goingRight, int power, Game game) {
         super(x,y,width,height);
         this.game = game;
+        this.goingRight = goingRight;
+        this.power = power;
+        if(goingRight){
+            this.animation = new Animation(Assets.bird1Sprites, 100);
+        }
+        else{
+            this.animation = new Animation(Assets.bird2Sprites, 100);
+        }
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public boolean isGoingRight() {
+        return goingRight;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
     
+    public void respawn(){
+        if(isGoingRight()){
+            setX( -(int)(Math.random() * 5000) );
+        }
+        else{
+            setX( game.getWidth() + (int)(Math.random() * 5000) );
+        }
+        setY( (int)(Math.random() * (game.getHeight() - 100) + 50) );
+        // set a new random power
+        setPower( (int)( Math.random() * 4 ) + 1 );
     }
      
-      @Override
+    @Override
     public void tick() {
-               
-        if(getX() < 1025) {
-            setX(getX() + 10);
-        } else {
-             setX(getX() - 10);
+        if(isGoingRight()){
+            setX( getX() + 10 );
         }
-        
-        
-        
+        else{
+            setX(getX() - 10);
+        }
     }
     
     @Override
     public void render(Graphics g) {
-        
-        g.setColor(Color.red);
-        g.fillRect(getX(), getY(), getWidth(), getHeight());
-                                             
+        if(isGoingRight()){
+            g.drawImage(animation.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);  
+        }
+        else{
+            g.drawImage(animation.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);  
+        }
     }
     
 }

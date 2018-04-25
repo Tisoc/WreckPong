@@ -17,13 +17,9 @@ public class KeyManager implements KeyListener {
     public boolean p1down;   // flag to move palyer1 down
     public boolean p2up;    // flag to move palyer2 top
     public boolean p2down;   // flag to move palyer1 down
-    public boolean space;   // flag to space
     private boolean pause;  // flag to pause the game
     private boolean pauseEnabled; // flag to know the pause
     private boolean restart; // flag to restart the game
-    private boolean saveEnabled;
-    private boolean save;
-    private boolean load;
     private boolean keys[];  // to store all the flags for every key
     
     /**
@@ -32,7 +28,6 @@ public class KeyManager implements KeyListener {
     public KeyManager() {
         keys = new boolean[256];
         pauseEnabled = true;
-        saveEnabled = true;
     }
 
     /**
@@ -41,30 +36,6 @@ public class KeyManager implements KeyListener {
      */
     public void setPause(boolean pause) {
         keys[KeyEvent.VK_P] = pause;
-    }
-
-    public boolean isSave() {
-        return save;
-    }
-
-    public boolean isLoad() {
-        return load;
-    }
-
-    public void setSave(boolean save) {
-        //keys[KeyEvent.VK_S] = save;
-    }
-
-    public void setLoad(boolean load) {
-        this.load = load;
-    }
-
-    public void setSaveEnabled(boolean saveEnabled) {
-        this.saveEnabled = saveEnabled;
-    }
-
-    public boolean isSaveEnabled() {
-        return saveEnabled;
     }
 
     /**
@@ -102,13 +73,7 @@ public class KeyManager implements KeyListener {
                 keys[KeyEvent.VK_P] = true;
                 pauseEnabled = false;
             }
-        }/*
-        else if(e.getKeyCode() == KeyEvent.VK_S){
-            if(saveEnabled){
-                keys[KeyEvent.VK_S] = true;
-                saveEnabled = false;
-            }
-        }*/
+        }
         else{
             // set true to every key pressed
             keys[e.getKeyCode()] = true;
@@ -125,10 +90,7 @@ public class KeyManager implements KeyListener {
         // set false to every key released
         if(e.getKeyCode() == KeyEvent.VK_P){
             pauseEnabled = true;
-        }/*
-        else if(e.getKeyCode() == KeyEvent.VK_S){
-            saveEnabled = true;
-        }*/
+        }
         keys[e.getKeyCode()] = false;
     }
     
@@ -140,11 +102,7 @@ public class KeyManager implements KeyListener {
         p1down = keys[KeyEvent.VK_DOWN];
         p2up = keys[KeyEvent.VK_W];
         p2down = keys[KeyEvent.VK_S];
-        
-        //space = keys[KeyEvent.VK_SPACE];
         pause = keys[KeyEvent.VK_P];
-        //save = keys[KeyEvent.VK_S];
-        //load = keys[KeyEvent.VK_L];
         //restart = keys[KeyEvent.VK_R];
     }
 }

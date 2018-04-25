@@ -8,6 +8,7 @@ package videogame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 /**
  * @author Arturo Arenas Esparza (A00820982)
@@ -23,20 +24,21 @@ public class Game implements Runnable{
     private Thread thread;              // thread to create the game
     private boolean running;            // to set the game
     private Ball ball;                  // the wrecking ball
-    private Building building1;         //the player1 building of the game
-    private Building building2;         //the player2 building of the game
+    private Building building1;         // the player1's building of the game
+    private Building building2;         // the player2's building of the game
     private boolean paused;             // pause status
-//  private boolean death;            // death status
-    private Bird bird1;                 //first bird
-    private Bird bird2;                 //second bird
+    private boolean death;              // death status
+    private Bird bird1;                 // first bird
+    private Bird bird2;                 // second bird
     private Elevator player1;           // the main player of the game
     private Elevator player2;           // the secondary player of the game
     private KeyManager keyManager;      // to manage the keyboard
-    private int SpeedX;                     // the speed of the bird
-//  private FileManager fileManager;  // to load the file manager
-//  private int lives;                // amount of lives left
-//  private int score;                // score of the player
-//  final private int LIVES;          // initial amount of lives
+    private int livesP1;                // amount of lives left for player1
+    private int livesP2;                // amount of lives left for player2
+    private int score;                  // score of the player - COMPLETE SOLO MODE
+    private boolean solo;               // solo game status
+    final private int LIVES;            // initial amount of lives
+    private ArrayList<Perk> perks;      // array of perks
     
     /**
      * to create title, width and height and set the game is still not running
@@ -50,6 +52,10 @@ public class Game implements Runnable{
         this.height = height;
         keyManager = new KeyManager();
         running = false;
+        death = false;
+        paused = false;
+        perks = new ArrayList<Perk>();
+        LIVES = 5;
     }
     
     /**
@@ -68,9 +74,9 @@ public class Game implements Runnable{
         return height;
     }
 
-//    public int getScore() {
-//        return score;
-//    }
+    public int getScore() {
+        return score;
+    }
     
     /**
      * Getter for player 1
@@ -88,22 +94,29 @@ public class Game implements Runnable{
         return player2;
     }
 
-
+    public Ball getBall() {
+        return ball;
+    }
+    
     /**
      * Getter for the death status of the game
      * @return the death status of the game
      */
-//    public boolean isDeath() {
-//        return death;
-//    }
+    public boolean isDeath() {
+        return death;
+    }
+
+    public void setBall(Ball ball) {
+        this.ball = ball;
+    }
 
     /**
      * Setter for the death status of the game
      * @param death the death status of the game
      */
-//    public void setDeath(boolean death) {
-//        this.death = death;
-//    }
+    public void setDeath(boolean death) {
+        this.death = death;
+    }
 
     /**
      * Setter for the running status of the game
@@ -113,9 +126,9 @@ public class Game implements Runnable{
         this.running = running;
     }
 
-//    public void setScore(int score) {
-//        this.score = score;
-//    }
+    public void setScore(int score) {
+        this.score = score;
+    }
     
     /**
      * initializing the display window of the game
@@ -123,46 +136,37 @@ public class Game implements Runnable{
     private void init() {
         Assets.init();
         display = new Display(title, getWidth(), getHeight());
-        ball = new Ball(800, 50, 50, this); 
+        ball = new Ball(800, 45, 57, this); 
         building1 = new Building(12, 0, 120, 640, this);
         building2 = new Building(892, 0, 120, 640, this);
-        player1 = new Elevator(40, 50, 125, 125, true, this);
-        player2 = new Elevator(860, 50, 125, 125, false, this);
-        bird1 = new Bird(randomnessX(),randomnessY(),50,30,this);
-        bird2 = new Bird(randomnessX(),randomnessY(),50,30,this);
+        player1 = new Elevator(60, 50, 94, 105, true, this, false);
+        player2 = new Elevator(870, 50, 94, 105, false, this, true);
+        bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
+        bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
+        livesP1 = LIVES;
+        livesP2 = LIVES;
         display.getJframe().addKeyListener(keyManager);
     }
     
-    private int randomnessY(){
-        
-        return (int) (Math.random() * 540) + 50;
+    private void reset(){
+        ball = new Ball(800, 45, 57, this); 
+        building1 = new Building(12, 0, 120, 640, this);
+        building2 = new Building(892, 0, 120, 640, this);
+        player1 = new Elevator(60, 50, 94, 105, true, this, false);
+        player2 = new Elevator(870, 50, 94, 105, false, this, true);
+        bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
+        bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
+        perks.clear();
     }
     
-    private int randomnessX(){
-        
-        int rand = (int) (Math.random() * 2);
-        int rand2 = (int) (Math.random() * 924) + 50;
-        
-        if(rand > 0) {
-                       
-            return rand2;
-            
-        } else {
-            return rand2 * -1;
+    private int randomRange(int min, int max, boolean isPositive){ 
+        int num = (int)(Math.random() * (max - min)) + min;
+        if(!isPositive){
+            num -= (-1);
         }
+        return num;
     }
-    
-   
-    public int setSpeedX(){
-       return this.SpeedX = SpeedX;
-    }
-    
-    public int getSpeedX(){
-        return SpeedX;
-    }
-    
-    
-    
+      
     /**
      * Runs the game
      */
@@ -187,7 +191,7 @@ public class Game implements Runnable{
             // updating the last time
             lastTime = now;
             
-            // if delta is positive we tick the game
+            // if delta is bigger than 1 we tick the game
             if (delta >= 1) {
                 tick();
                 render();
@@ -216,10 +220,6 @@ public class Game implements Runnable{
             paused = !paused;
         }
         if(!paused){
-            // tick the elements of the game
-            if(getKeyManager().isLoad()){
-                FileManager.loadFile(this);
-            }
             player1.tick();
             player2.tick();
             ball.tick();
@@ -228,20 +228,99 @@ public class Game implements Runnable{
             // check for ball vs building1 collision
             if(ball.intersects(building1)){
                 ball.turnAround();
+                while(ball.intersects(player1)){
+                    ball.tick();
+                }
                 building1.damage();
             }
             // check for ball vs building2 collision
             else if(ball.intersects(building2)){
                 ball.turnAround();
+                while(ball.intersects(player2)){
+                    ball.tick();
+                }
                 building2.damage();
-            } else if(bird1.intersects(building1)){
-                
             }
             else{
                 // check for ball vs player collision
                 if(ball.intersects(player1) || ball.intersects(player2)){
                     ball.turnAround();
                 }      
+            }
+            // TODO: check collision bird1 vs building2
+            if(bird1.intersects(building2)){
+                bird1.respawn();
+            }
+            // TODO: check collision bird2 vs building1
+            if(bird2.intersects(building1)){
+                bird2.respawn();
+            }
+            // TODO: check collision bird1 vs player2
+            if(bird1.intersects(player2)){
+                // add the perk
+                int perkID = bird1.getPower();
+                if(perkID <= 4){
+                    perks.add(new Perk(perkID, 0, 250, player2));
+                }
+                else{
+                    if(perkID == 5 && building2.getStrength() < 7){
+                        building2.setStrength(building2.getStrength() + 1);
+                    }
+                    else if(building2.getStrength() > 0){
+                        building2.damage();
+                    }
+                }
+                bird1.respawn();
+            }
+            // TODO: check collision bird2 vs player1
+            if(bird2.intersects(player1)){
+                // add the perk
+                int perkID = bird2.getPower();
+                if(perkID <= 4){
+                    perks.add(new Perk(perkID, 0, 250, player1));
+                }
+                else{
+                    if(perkID == 5 && building1.getStrength() < 7){
+                        building1.setStrength(building1.getStrength() + 1);
+                    }
+                    else if(building1.getStrength() > 0){
+                        building1.damage();
+                    }
+                }
+                bird2.respawn();
+            }
+            // Respawn birds if necessary
+            if(bird1.getX() > getWidth()){
+                // respawn it
+                bird1.respawn();
+            }
+            if(bird2.getX() + bird2.getWidth() < 0){
+                // respawn it
+                bird2.respawn();
+            }
+            
+            // tick the perks
+            for(int i = 0; i < perks.size(); i++){
+                if(perks.get(i).timesTicked > perks.get(i).lifeTime){
+                    perks.remove(i);
+                    i--;
+                }
+                else{
+                    perks.get(i).execute();
+                }
+            }
+            
+            // check if a player has died
+            // TO COMPLETE
+            if(building1.getStrength() == 0){
+                // remove a life and reset everything
+                livesP1--;
+                reset();
+            }
+            if(building2.getStrength() == 0){
+                // remove a life and reset everything
+                livesP2--;
+                reset();
             }
         }
     }
@@ -266,6 +345,8 @@ public class Game implements Runnable{
             // render the elements of the game
             if(running){
                 g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null);
+                g.drawImage(Assets.health1Sprites[5 - livesP1], 225, 10, 256, 40, null);
+                g.drawImage(Assets.health2Sprites[5 - livesP2], getWidth() - 225 - 256, 10, 256, 40, null);
                 ball.render(g);
                 building1.render(g);
                 building2.render(g);

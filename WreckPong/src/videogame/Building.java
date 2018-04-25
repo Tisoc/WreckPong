@@ -24,7 +24,15 @@ public class Building extends Item{
         this.game = game;
         this.strength = 7;
     }
-    
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+ 
     void damage(){
         strength--;
     }

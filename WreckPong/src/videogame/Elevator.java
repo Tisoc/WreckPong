@@ -14,9 +14,12 @@ import java.awt.Graphics;
  */
 public class Elevator extends Item{
 
-    private final Game game;  // Reference to the game
-    private boolean type; // Reference if is player1 or player2
-    private Animation animation; // animation of the player
+    private final Game game;        // Reference to the game
+    private boolean type;           // Reference if is player1 or player2
+    private Animation animation;    // animation of the player
+    private boolean automatic;      // automatic status
+    private int yVel;               // y-axis velocity used in auto mode only
+    private long lastTime;          // time used in auto mode only
     
     /**
      * Constructor of the player
@@ -27,10 +30,13 @@ public class Elevator extends Item{
      * @param height the height of the player
      * @param game the copy of the game
      */
-    public Elevator(int x, int y, int width, int height, boolean type, Game game) {
+    public Elevator(int x, int y, int width, int height, boolean type, Game game, boolean automatic) {
         super(x, y, width, height);
         this.type = type;
         this.game = game;
+        this.automatic = automatic;
+        lastTime = System.nanoTime();
+        yVel = 4;
         if(type){
             this.animation = new Animation(Assets.player1Sprites, 100);
         }
@@ -47,6 +53,22 @@ public class Elevator extends Item{
         return type;
     }
 
+    public boolean isAutomatic() {
+        return automatic;
+    }
+
+    public int getyVel() {
+        return yVel;
+    }
+
+    public void setyVel(int yVel) {
+        this.yVel = yVel;
+    }
+
+    public void setAutomatic(boolean automatic) {
+        this.automatic = automatic;
+    }
+
     /**
      * Set <b>type</b> value
      * @param type to modify
@@ -61,22 +83,41 @@ public class Elevator extends Item{
     @Override
     public void tick() {  
         this.animation.tick();
-        // moving players depending on keys
-        if(type){
-            if (game.getKeyManager().p1up) {
-               setY(getY() - 6);
+        // moving players depending on keys if it¿s not automatic
+        if(!isAutomatic()){
+            if(isType()){
+                if (game.getKeyManager().p2up) {
+                   setY(getY() - getyVel());
+                }
+                if (game.getKeyManager().p2down) {
+                   setY(getY() + getyVel());
+                }
             }
-            if (game.getKeyManager().p1down) {
-               setY(getY() + 6);
+            else{
+                if (game.getKeyManager().p1up) {
+                   setY(getY() - getyVel());
+                }
+                if (game.getKeyManager().p1down) {
+                   setY(getY() + getyVel());
+                }
             }
         }
         else{
-            if (game.getKeyManager().p2up) {
-               setY(getY() - 6);
+            // there's 70% of probability that it will follow the ball
+            long curTime = System.nanoTime();
+            if(curTime - lastTime > 100000000){
+                lastTime = curTime;
+                int decision = (int)(Math.random() * 10);
+                if(decision < 7){
+                    // follow the ball
+                    setyVel( 4 * (int)(Math.signum( (double)(game.getBall().getY() - getY()) )) );
+                }
+                else{
+                    // go the other way
+                    setyVel( 4 * (int)(Math.signum( (double)(game.getBall().getY() - getY()) )) );
+                }
             }
-            if (game.getKeyManager().p2down) {
-               setY(getY() + 6);
-            }
+            setY(getY() + getyVel());
         }
 
         // collision with walls
