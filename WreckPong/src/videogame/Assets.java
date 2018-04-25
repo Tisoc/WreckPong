@@ -55,15 +55,15 @@ public class Assets {
         button2 = ImageLoader.loadImage("/images/OPTIONS_Button.png");
         button3 = ImageLoader.loadImage("/images/MULTI Button.png");
         background = ImageLoader.loadImage("/images/Background.png");
-        player1 = ImageLoader.loadImage("/images/ElevatorP1.png");
-        player2 = ImageLoader.loadImage("/images/ElevatorP2.png");
-        building1 = ImageLoader.loadImage("/images/Building P1.png");
-        building2 = ImageLoader.loadImage("/images/Building P1.png");
-        ball = ImageLoader.loadImage("/images/Wrecking Ball.png");
-        bird1 = ImageLoader.loadImage("/images/Blue Bird.png");
-        bird2 = ImageLoader.loadImage("/images/Green Bird.png");
-        health1 = ImageLoader.loadImage("/images/Health P1.png");
-        health2 = ImageLoader.loadImage("/images/Health P2.png");
+        player1 = ImageLoader.loadImage("/images/p1.png");
+        player2 = ImageLoader.loadImage("/images/p2.png");
+        building1 = ImageLoader.loadImage("/images/buildingP1.png");
+        building2 = ImageLoader.loadImage("/images/buildingP2.png");
+        ball = ImageLoader.loadImage("/images/wreckingBall.png");
+        bird1 = ImageLoader.loadImage("/images/blueBird.png");
+        bird2 = ImageLoader.loadImage("/images/greenBird.png");
+        health1 = ImageLoader.loadImage("/images/healthP1.png");
+        health2 = ImageLoader.loadImage("/images/healthP2.png");
         
         player1Sprites = new BufferedImage[2];
         player2Sprites = new BufferedImage[2];
@@ -91,8 +91,8 @@ public class Assets {
         for(int i = 0; i < 2; i++){
             player1Sprites[i] = spritesheetP1.crop(0, i * 105, 94, 105);
             player2Sprites[i] = spritesheetP2.crop(0, i * 105, 94, 105);
-            bird1Sprites[i] = spritesheetBird1.crop(0, i * 30, 50, 30);
-            bird2Sprites[i] = spritesheetBird2.crop(0, i * 30, 50, 30);
+            bird1Sprites[i] = spritesheetBird1.crop(0, i * 25, 30, 25);
+            bird2Sprites[i] = spritesheetBird2.crop(0, i * 25, 30, 25);
         }
         for(int i = 0; i < 6; i++){
             health1Sprites[i] = spritesheetH1.crop(0, i * 40, 256, 40);
