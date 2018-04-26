@@ -76,6 +76,7 @@ public class Bird extends Item {
             }
         }
         else{
+            System.out.println("" + decision + " ");
             this.animation = new Animation(Assets.bird3Sprites, 100);
         }
     }
