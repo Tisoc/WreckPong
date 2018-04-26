@@ -145,8 +145,8 @@ public class Game implements Runnable{
         Assets.init();
         display = new Display(title, getWidth(), getHeight());
         ball = new Ball(800, 45, 57, this); 
-        building1 = new Building(12, 0, 120, 640, this);
-        building2 = new Building(892, 0, 120, 640, this);
+        building1 = new Building(12, 0, 120, 640, true, this);
+        building2 = new Building(892, 0, 120, 640, false, this);
         player1 = new Elevator(60, 50, 94, 105, true, this, false);
         player2 = new Elevator(870, 50, 94, 105, false, this, false);
         bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
@@ -165,8 +165,8 @@ public class Game implements Runnable{
     
     private void reset(){
         ball = new Ball(800, 45, 57, this); 
-        building1 = new Building(12, 0, 120, 640, this);
-        building2 = new Building(892, 0, 120, 640, this);
+        building1 = new Building(12, 0, 120, 640, true, this);
+        building2 = new Building(892, 0, 120, 640, false, this);
         player1 = new Elevator(60, 50, 94, 105, true, this, false);
         player2 = new Elevator(870, 50, 94, 105, false, this, true);
         bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
@@ -394,7 +394,16 @@ public class Game implements Runnable{
                     btn3.render(g);                  
                 }
                 else if(game){
-                    g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null);
+                    g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null); // 2 0 1
+                    if(ball.getY() < getHeight() / 3){
+                        g.drawImage(Assets.craneSprites[2], 400, 50, 512, 640, null);
+                    }
+                    else if(ball.getY() < getHeight() * 2 / 3){
+                        g.drawImage(Assets.craneSprites[0], 400, 50, 512, 640, null);
+                    }
+                    else{
+                        g.drawImage(Assets.craneSprites[1], 400, 50, 512, 640, null);
+                    }
                     g.drawImage(Assets.health1Sprites[5 - livesP1], 225, 10, 256, 40, null);
                     g.drawImage(Assets.health2Sprites[5 - livesP2], getWidth() - 225 - 256, 10, 256, 40, null);
                     ball.render(g);
