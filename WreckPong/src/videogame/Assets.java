@@ -66,7 +66,7 @@ public class Assets {
         startBackground = ImageLoader.loadImage("/images/intro_game.png");
         button1 = ImageLoader.loadImage("/images/SOLO_Button.png");
         button2 = ImageLoader.loadImage("/images/OPTIONS_Button.png");
-        button3 = ImageLoader.loadImage("/images/MULTI Button.png");
+        button3 = ImageLoader.loadImage("/images/MULTI_Button.png");
         background = ImageLoader.loadImage("/images/Background.png");
         player1 = ImageLoader.loadImage("/images/p1.png");
         player2 = ImageLoader.loadImage("/images/p2.png");
