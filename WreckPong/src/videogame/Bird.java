@@ -24,11 +24,19 @@ public class Bird extends Item {
         this.game = game;
         this.goingRight = goingRight;
         this.power = power;
-        if(goingRight){
-            this.animation = new Animation(Assets.bird1Sprites, 100);
+        int decision = (int)(Math.random() * 2);
+        if(decision == 1){
+            if(power % 2 == 1){
+                // good bird
+                this.animation = new Animation(Assets.bird1Sprites, 100);
+            }
+            else{
+                // evil bird
+                this.animation = new Animation(Assets.bird2Sprites, 100);
+            }
         }
         else{
-            this.animation = new Animation(Assets.bird2Sprites, 100);
+            this.animation = new Animation(Assets.bird3Sprites, 100);
         }
     }
 
@@ -54,6 +62,20 @@ public class Bird extends Item {
         setY( (int)(Math.random() * (game.getHeight() - 100) + 50) );
         // set a new random power
         setPower( (int)( Math.random() * 4 ) + 1 );
+        int decision = (int)(Math.random() * 2);
+        if(decision == 1){
+            if(power % 2 == 1){
+                // good bird
+                this.animation = new Animation(Assets.bird1Sprites, 100);
+            }
+            else{
+                // evil bird
+                this.animation = new Animation(Assets.bird2Sprites, 100);
+            }
+        }
+        else{
+            this.animation = new Animation(Assets.bird3Sprites, 100);
+        }
     }
      
     @Override
@@ -64,16 +86,14 @@ public class Bird extends Item {
         else{
             setX(getX() - 10);
         }
+        if(getX() > game.getWidth() / 2 - 5 && getX() <= game.getWidth() / 2 + 5){
+            Assets.birdSpawns.play();
+        }
     }
     
     @Override
     public void render(Graphics g) {
-        if(isGoingRight()){
-            g.drawImage(animation.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);  
-        }
-        else{
-            g.drawImage(animation.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);  
-        }
+        g.drawImage(animation.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
     }
     
 }

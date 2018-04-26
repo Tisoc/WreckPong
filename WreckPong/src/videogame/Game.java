@@ -143,6 +143,8 @@ public class Game implements Runnable{
      */
     private void init() {
         Assets.init();
+        Assets.birdSpawns.play();
+        
         display = new Display(title, getWidth(), getHeight());
         ball = new Ball(800, 45, 57, this); 
         building1 = new Building(12, 0, 120, 640, true, this);
@@ -267,6 +269,7 @@ public class Game implements Runnable{
                 // check for ball vs building1 collision
                 if(ball.intersects(building1)){
                     ball.turnAround();
+                    Assets.collisionBallBuilding.play();
                     while(ball.intersects(player1)){
                         ball.tick();
                     }
@@ -275,6 +278,7 @@ public class Game implements Runnable{
                 // check for ball vs building2 collision
                 else if(ball.intersects(building2)){
                     ball.turnAround();
+                    Assets.collisionBallBuilding.play();
                     while(ball.intersects(player2)){
                         ball.tick();
                     }
@@ -283,6 +287,7 @@ public class Game implements Runnable{
                 else{
                     // check for ball vs player collision
                     if(ball.intersects(player1) || ball.intersects(player2)){
+                        Assets.collisionBallElevator.play();
                         ball.turnAround();
                     }      
                 }
@@ -298,6 +303,12 @@ public class Game implements Runnable{
                 if(bird1.intersects(player2)){
                     // add the perk
                     int perkID = bird1.getPower();
+                    if(perkID % 2 == 1){
+                        Assets.goodBirdElevator.play();
+                    }
+                    else{
+                        Assets.evilBirdElevator.play();
+                    }
                     if(perkID <= 4){
                         perks.add(new Perk(perkID, 0, 250, player2));
                     }
@@ -315,6 +326,12 @@ public class Game implements Runnable{
                 if(bird2.intersects(player1)){
                     // add the perk
                     int perkID = bird2.getPower();
+                    if(perkID % 2 == 1){
+                        Assets.goodBirdElevator.play();
+                    }
+                    else{
+                        Assets.evilBirdElevator.play();
+                    }
                     if(perkID <= 4){
                         perks.add(new Perk(perkID, 0, 250, player1));
                     }

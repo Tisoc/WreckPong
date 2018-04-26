@@ -12,11 +12,13 @@ import java.awt.image.BufferedImage;
  * @author Sergio Sanchez Martinez (A00809693)
  */
 public class Assets {
-    public static SoundClip booing;
-    public static SoundClip cheering;
-    public static SoundClip crossing;
-    public static SoundClip colliding;
-    public static SoundClip respawning;
+    public static SoundClip collisionBallBuilding;
+    public static SoundClip collisionBallElevator;
+    public static SoundClip collisionBirdBuilding;
+    public static SoundClip elevatorMove;
+    public static SoundClip goodBirdElevator;
+    public static SoundClip evilBirdElevator;
+    public static SoundClip birdSpawns;
     
     public static BufferedImage startBackground; // to store background image
     public static BufferedImage background; // to store background image
@@ -27,6 +29,7 @@ public class Assets {
     public static BufferedImage building2;
     public static BufferedImage bird1;
     public static BufferedImage bird2;
+    public static BufferedImage bird3;
     public static BufferedImage health1;
     public static BufferedImage health2;
     public static BufferedImage crane;
@@ -48,6 +51,7 @@ public class Assets {
     public static BufferedImage[] building2Sprites;
     public static BufferedImage[] bird1Sprites;
     public static BufferedImage[] bird2Sprites;
+    public static BufferedImage[] bird3Sprites;
     public static BufferedImage[] health1Sprites;
     public static BufferedImage[] health2Sprites;
     public static BufferedImage[] craneSprites;
@@ -57,11 +61,13 @@ public class Assets {
      * initializing the images of the game
      */
     public static void init() {
-        //booing = new SoundClip("/sounds/booing.wav");
-        cheering = new SoundClip("/sounds/cheering.wav");
-        colliding = new SoundClip("/sounds/colliding.wav");
-        crossing = new SoundClip("/sounds/crossing.wav");
-        respawning = new SoundClip("/sounds/respawning.wav");
+        collisionBallBuilding = new SoundClip("/sounds/colision_bola_edificio.wav");
+        collisionBallElevator = new SoundClip("/sounds/colision_bola_elevador.wav");
+        collisionBirdBuilding = new SoundClip("/sounds/colision_pajaro_edificio.wav");
+        elevatorMove = new SoundClip("/sounds/elevator_move.wav");
+        goodBirdElevator = new SoundClip("/sounds/pajarobueno_elevador.wav");
+        evilBirdElevator = new SoundClip("/sounds/pajaromalo_elevador.wav");
+        birdSpawns = new SoundClip("/sounds/sonido_pajaroaparece.wav"); 
 
         startBackground = ImageLoader.loadImage("/images/intro_game.png");
         button1 = ImageLoader.loadImage("/images/SOLO_Button.png");
@@ -75,6 +81,7 @@ public class Assets {
         ball = ImageLoader.loadImage("/images/wreckingBall.png");
         bird1 = ImageLoader.loadImage("/images/blueBird.png");
         bird2 = ImageLoader.loadImage("/images/greenBird.png");
+        bird3 = ImageLoader.loadImage("/images/pinkBird.png");
         health1 = ImageLoader.loadImage("/images/healthP1.png");
         health2 = ImageLoader.loadImage("/images/healthP2.png");
         crane = ImageLoader.loadImage("/images/Crane.png");
@@ -87,6 +94,7 @@ public class Assets {
         
         bird1Sprites = new BufferedImage[2];
         bird2Sprites = new BufferedImage[2];
+        bird3Sprites = new BufferedImage[2];
         
         health1Sprites = new BufferedImage[6];
         health2Sprites = new BufferedImage[6];
@@ -100,6 +108,7 @@ public class Assets {
         SpriteSheet spritesheetB2 = new SpriteSheet(building2);
         SpriteSheet spritesheetBird1 = new SpriteSheet(bird1);
         SpriteSheet spritesheetBird2 = new SpriteSheet(bird2);
+        SpriteSheet spritesheetBird3 = new SpriteSheet(bird3);
         SpriteSheet spritesheetH1 = new SpriteSheet(health1);
         SpriteSheet spritesheetH2 = new SpriteSheet(health2);
         SpriteSheet spritesheetCrane = new SpriteSheet(crane);
@@ -110,6 +119,7 @@ public class Assets {
             player2Sprites[i] = spritesheetP2.crop(0, i * 128, 115, 128);
             bird1Sprites[i] = spritesheetBird1.crop(0, i * 25, 31, 25);
             bird2Sprites[i] = spritesheetBird2.crop(0, i * 25, 31, 25);
+            bird3Sprites[i] = spritesheetBird3.crop(0, i * 25, 31, 25);
         }
         for(int i = 0; i < 6; i++){
             health1Sprites[i] = spritesheetH1.crop(0, i * 40, 256, 40);
