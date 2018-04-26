@@ -15,12 +15,15 @@ import java.awt.Graphics;
  * @author Sergio Sanchez Martinez (A00809693)
  */
 public class Building extends Item{
-    private int width;
-    private int height;
-    private int strength;
-    private boolean mainPlayer;
-    private Game game;
+    private int width;              // the width of the building
+    private int height;             // the height of the building
+    private int strength;           // the quantity of colitions
+    private boolean mainPlayer;     // define the type of building
+    private Game game;              // Reference to the game
     
+     /**
+     * Constructor of the bird
+     */    
     public Building(int x, int y, int width, int height, boolean mainPlayer, Game game) {
         super(x,y,width,height);
         this.mainPlayer = mainPlayer;
@@ -28,14 +31,26 @@ public class Building extends Item{
         this.strength = 7;
     }
 
+    /**
+     * Setter the strength value
+     * @param strength the power
+     */
     public void setStrength(int strength) {
         this.strength = strength;
     }
 
+     /**
+     * Getter for the strength
+     * @return the strength of the building
+     */
     public int getStrength() {
         return strength;
     }
 
+    /**
+     * Getter for the main player
+     * @return the object for the main player
+     */
     public boolean isMainPlayer() {
         return mainPlayer;
     }
@@ -45,12 +60,19 @@ public class Building extends Item{
     void damage(){
         strength--;
     }
-    
+
+    /**
+     * Update the atributes of the building
+     */    
     @Override
     public void tick() {
         // Not much to do here
     }
-    
+
+    /**
+     * Paints the Building
+     * @param g the grphics to paint the building
+     */    
     @Override
     public void render(Graphics g) {
         if(isMainPlayer()){
