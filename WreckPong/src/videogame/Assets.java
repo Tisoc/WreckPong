@@ -12,6 +12,12 @@ import java.awt.image.BufferedImage;
  * @author Sergio Sanchez Martinez (A00809693)
  */
 public class Assets {
+    public static SoundClip booing;
+    public static SoundClip cheering;
+    public static SoundClip crossing;
+    public static SoundClip colliding;
+    public static SoundClip respawning;
+    
     public static BufferedImage startBackground; // to store background image
     public static BufferedImage background; // to store background image
 
@@ -51,6 +57,11 @@ public class Assets {
      * initializing the images of the game
      */
     public static void init() {
+        //booing = new SoundClip("/sounds/booing.wav");
+        cheering = new SoundClip("/sounds/cheering.wav");
+        colliding = new SoundClip("/sounds/colliding.wav");
+        crossing = new SoundClip("/sounds/crossing.wav");
+        respawning = new SoundClip("/sounds/respawning.wav");
 
         startBackground = ImageLoader.loadImage("/images/intro_game.png");
         button1 = ImageLoader.loadImage("/images/SOLO_Button.png");
