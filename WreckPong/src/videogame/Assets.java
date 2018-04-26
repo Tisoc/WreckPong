@@ -22,41 +22,40 @@ public class Assets {
     public static SoundClip evilBirdElevator;
     public static SoundClip birdSpawns;
     
-    public static BufferedImage startBackground; // to store background image
-    public static BufferedImage background; // to store background image
+    public static BufferedImage startBackground;    // to store start background image
+    public static BufferedImage background;         // to store background image
+    public static BufferedImage player1;            // to store the player1 image
+    public static BufferedImage player2;            // to store the player2 image
+    public static BufferedImage building1;          // to store the building1 image
+    public static BufferedImage building2;          // to store the building2 image
+    public static BufferedImage bird1;              // to store the bird1 image
+    public static BufferedImage bird2;              // to store the bird2 image
+    public static BufferedImage bird3;              // to store the bird3 image
+    public static BufferedImage health1;            // to store the health progress1 image
+    public static BufferedImage health2;            // to store the health progress1 image
+    public static BufferedImage crane;              // to store the  crane image
 
-    public static BufferedImage player1;     // to store the player1 image
-    public static BufferedImage player2;     // to store the player2 image
-    public static BufferedImage building1;
-    public static BufferedImage building2;
-    public static BufferedImage bird1;
-    public static BufferedImage bird2;
-    public static BufferedImage bird3;
-    public static BufferedImage health1;
-    public static BufferedImage health2;
-    public static BufferedImage crane;
+    public static BufferedImage ball;               // to store the wrecking ball image
 
-    public static BufferedImage ball;     // to store the wrecking ball image
-
-    public static BufferedImage pause; // to store a background image
-    public static BufferedImage win; // to store a background image
-    public static BufferedImage lose; // to store a background image
-    public static BufferedImage restart; // to store a background image
+    public static BufferedImage pause;              // to store a pause background image
+    public static BufferedImage win;                // to store a win background image
+    public static BufferedImage lose;               // to store a lose background image
+    public static BufferedImage restart;            // to store a restart background image
     
-    public static BufferedImage button1; // to store a background image
-    public static BufferedImage button2; // to store a background image
-    public static BufferedImage button3; // to store a background image
+    public static BufferedImage button1;            // to store button 1 image
+    public static BufferedImage button2;            // to store button 2 image
+    public static BufferedImage button3;            // to store button 3 image
 
-    public static BufferedImage[] player1Sprites;
-    public static BufferedImage[] player2Sprites;
-    public static BufferedImage[] building1Sprites;
-    public static BufferedImage[] building2Sprites;
-    public static BufferedImage[] bird1Sprites;
-    public static BufferedImage[] bird2Sprites;
-    public static BufferedImage[] bird3Sprites;
-    public static BufferedImage[] health1Sprites;
-    public static BufferedImage[] health2Sprites;
-    public static BufferedImage[] craneSprites;
+    public static BufferedImage[] player1Sprites;   // to store the array of player1 image
+    public static BufferedImage[] player2Sprites;   // to store the array of player1 image
+    public static BufferedImage[] building1Sprites; // to store the array of building1 image
+    public static BufferedImage[] building2Sprites; // to store the array of building2 image
+    public static BufferedImage[] bird1Sprites;     // to store the array of bird1 image
+    public static BufferedImage[] bird2Sprites;     // to store the array of bird2 image
+    public static BufferedImage[] bird3Sprites;     // to store the array of bird3 image
+    public static BufferedImage[] health1Sprites;   // to store the array of health1 image
+    public static BufferedImage[] health2Sprites;   // to store the array of health2 image
+    public static BufferedImage[] craneSprites;     // to store the array of crane image
     
         
     /**
@@ -71,6 +70,7 @@ public class Assets {
         evilBirdElevator = new SoundClip("/sounds/pajaromalo_elevador.wav");
         birdSpawns = new SoundClip("/sounds/sonido_pajaroaparece.wav"); 
 
+        //asinging the resources
         startBackground = ImageLoader.loadImage("/images/intro_game.png");
         button1 = ImageLoader.loadImage("/images/SOLO_Button.png");
         button2 = ImageLoader.loadImage("/images/OPTIONS_Button.png");
@@ -87,7 +87,8 @@ public class Assets {
         health1 = ImageLoader.loadImage("/images/healthP1.png");
         health2 = ImageLoader.loadImage("/images/healthP2.png");
         crane = ImageLoader.loadImage("/images/Crane.png");
-                
+           
+        //creating the objects of the buffered image
         player1Sprites = new BufferedImage[2];
         player2Sprites = new BufferedImage[2];
         

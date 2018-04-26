@@ -15,13 +15,13 @@ import java.awt.Graphics;
  * @author Sergio Sanchez Martinez (A00809693)
  */
 public class Ball extends Item{
-    private int xvel;           // x-axis velocity
-    private int ropeLength;     // The length of the rope
-    private int ropeLengthChange;
-    private int difficulty = 4; // Defines the randomness of the rope length
-    private Game game;          // Reference to the game
-    private int zoneSize;       // size of each zone
-    private int curZone;
+    private int xvel;               // x-axis velocity
+    private int ropeLength;         // The length of the rope
+    private int ropeLengthChange;   // The change of the rope length
+    private int difficulty = 4;     // Defines the randomness of the rope length
+    private Game game;              // Reference to the game
+    private int zoneSize;           // size of each zone
+    private int curZone;            // the curzone
 
     /**
      * Constructor of the ball

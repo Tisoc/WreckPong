@@ -16,11 +16,14 @@ import java.awt.Graphics;
  */
 public class Bird extends Item {
     
-    private Game game;
-    boolean goingRight;
-    Animation animation;
-    int power;
+    private Game game;      // Reference to the game
+    boolean goingRight;     // Declare the direction
+    Animation animation;    // Adding animation to the object
+    int power;              // Asigning the power type
     
+     /**
+     * Constructor of the bird
+     */
      public Bird(int x, int y, int width, int height, boolean goingRight, int power, Game game) {
         super(x,y,width,height);
         this.game = game;
@@ -42,18 +45,33 @@ public class Bird extends Item {
         }
     }
 
+    /**
+     * Getter for the power
+     * @return the value of the power
+     */    
     public int getPower() {
         return power;
     }
 
+    /**
+     * Getter for the direction
+     * @return the direction for the bird
+     */
     public boolean isGoingRight() {
         return goingRight;
     }
 
+    /**
+     * Setter got the power value
+     * @param power the power
+     */
     public void setPower(int power) {
         this.power = power;
     }
-    
+
+    /**
+     * Set the direction of the movement
+     */    
     public void respawn(){
         if(isGoingRight()){
             setX( -(int)(Math.random() * 5000) );
@@ -80,7 +98,10 @@ public class Bird extends Item {
             this.animation = new Animation(Assets.bird3Sprites, 100);
         }
     }
-     
+
+    /**
+     * Update the atributes of the bird
+     */     
     @Override
     public void tick() {
         if(isGoingRight()){
@@ -94,6 +115,10 @@ public class Bird extends Item {
         }
     }
     
+    /**
+     * Paints the bird
+     * @param g the grphics to paint the bird
+     */    
     @Override
     public void render(Graphics g) {
         g.drawImage(animation.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);

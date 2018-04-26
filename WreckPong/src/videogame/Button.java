@@ -16,8 +16,8 @@ import java.awt.Graphics;
  */
 public class Button extends Item{
 
-    private final Game game;  // Reference to the game
-    private final int type;  
+    private final Game game;    // Reference to the game
+    private final int type;     // The kind of button
     
     /**
      * Constructor of the player
@@ -35,7 +35,9 @@ public class Button extends Item{
     }
 
 
-  
+    /**
+     * Update the sttributes of the buttons
+     */  
     @Override
     public void tick() {  
      
@@ -57,7 +59,7 @@ public class Button extends Item{
 
     /**
      * Paints the buttons
-     * @param g the grphics to paint the player
+     * @param g the grphics to paint the buttons
      */
     @Override
     public void render(Graphics g) {
