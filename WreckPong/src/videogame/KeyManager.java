@@ -15,14 +15,14 @@ import java.awt.event.KeyListener;
  * @author Sergio Sanchez Martinez (A00809693)
  */
 public class KeyManager implements KeyListener {
-    public boolean p1up;    // flag to move palyer1 top
-    public boolean p1down;   // flag to move palyer1 down
-    public boolean p2up;    // flag to move palyer2 top
-    public boolean p2down;   // flag to move palyer1 down
-    private boolean pause;  // flag to pause the game
-    private boolean pauseEnabled; // flag to know the pause
-    private boolean restart; // flag to restart the game
-    private boolean keys[];  // to store all the flags for every key
+    public boolean p1up;            // flag to move palyer1 top
+    public boolean p1down;          // flag to move palyer1 down
+    public boolean p2up;            // flag to move palyer2 top
+    public boolean p2down;          // flag to move palyer1 down
+    private boolean pause;          // flag to pause the game
+    private boolean pauseEnabled;   // flag to know the pause
+    private boolean restart;        // flag to restart the game
+    private boolean keys[];         // to store all the flags for every key
     
     /**
      * Constructor of the key manager
