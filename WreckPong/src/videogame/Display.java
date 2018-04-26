@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 /**
+ * @author Jaime Eugenio Garza Garza (A01193887)
+ * @author Alvaro Márquez Cervantes (A01193509)
  * @author Arturo Arenas Esparza (A00820982)
  * @author Sergio Sanchez Martinez (A00809693)
  */

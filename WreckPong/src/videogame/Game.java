@@ -11,42 +11,44 @@ import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 
 /**
+ * @author Jaime Eugenio Garza Garza (A01193887)
+ * @author Alvaro Márquez Cervantes (A01193509)
  * @author Arturo Arenas Esparza (A00820982)
  * @author Sergio Sanchez Martinez (A00809693)
  */
 public class Game implements Runnable{
-    private BufferStrategy bs;          // to have several buffers when displaying
-    private Graphics g;                 // to paint objects
-    private Display display;            // to display in the game
-    String title;                       // title of the window
-    private int width;                  // width of the window
-    private int height;                 // height of the window
-    private Thread thread;              // thread to create the game
-    private boolean running;            // to set the game
-    private Ball ball;                  // the wrecking ball
-    private Building building1;         // the player1's building of the game
-    private Building building2;         // the player2's building of the game
-    private boolean paused;             // pause status
-    private boolean death;              // death status
-    private Bird bird1;                 // first bird
-    private Bird bird2;                 // second bird
-    private Elevator player1;           // the main player of the game
-    private Elevator player2;           // the secondary player of the game
-    private KeyManager keyManager;      // to manage the keyboard
-    private MouseManager mouseManager; // to manage the mouse
-    private int livesP1;                // amount of lives left for player1
-    private int livesP2;                // amount of lives left for player2
-    private int score;                  // score of the player - COMPLETE SOLO MODE
-    private boolean solo;               // solo game status
-    final private int LIVES;            // initial amount of lives
-    private ArrayList<Perk> perks;      // array of perks
-    private boolean intro;              // to validate if the game is in the intro
-    private boolean start;              // to validate if the game is in the intro
-    private boolean game;               // to know if we are playing
-    private Button btn1;
-    private Button btn2;
-    private Button btn3;
-    private int SpeedX;                     // the speed of the bird
+    private Ball ball;                  // The wrecking ball
+    private Bird bird1;                 // First bird
+    private Bird bird2;                 // Second bird
+    private BufferStrategy bs;          // To have several buffers when displaying
+    private Button btn1;                // The one player button
+    private Button btn2;                // The option button
+    private Button btn3;                // The multiplayer button
+    private Building building1;         // The player1's building of the game
+    private Building building2;         // The player2's building of the game
+    private boolean death;              // Death status
+    private Display display;            // To display in the game
+    private Graphics g;                 // To paint objects
+    private boolean game;               // To know if we are playing
+    private int height;                 // Height of the window
+    private boolean intro;              // To validate if the game is in the intro
+    private KeyManager keyManager;      // To manage the keyboard
+    final private int LIVES;            // Initial amount of lives
+    private int livesP1;                // Amount of lives left for player1
+    private int livesP2;                // Amount of lives left for player2
+    private MouseManager mouseManager;  // To manage the mouse
+    private boolean paused;             // Pause status
+    private ArrayList<Perk> perks;      // Array of perks
+    private Elevator player1;           // The main player of the game
+    private Elevator player2;           // The secondary player of the game
+    private boolean running;            // To set the game
+    private int score;                  // Score of the player - COMPLETE SOLO MODE
+    private boolean solo;               // Solo game status
+    private int SpeedX;                 // The speed of the bird
+    private boolean start;              // To validate if the game is in the intro
+    private String title;               // Title of the window
+    private Thread thread;              // Thread to create the game
+    private int width;                  // Width of the window
     
     /**
      * to create title, width and height and set the game is still not running
@@ -55,21 +57,100 @@ public class Game implements Runnable{
      * @param height  to set the height of the window
      */
     public Game(String title, int width, int height) {
-        this.title = title;
-        this.width = width;
-        this.height = height;
-        keyManager = new KeyManager();
-        mouseManager = new MouseManager();
-        running = false;
         death = false;
+        game = false;
+        intro = false;
+        keyManager = new KeyManager();
+        LIVES = 5;
+        mouseManager = new MouseManager();
         paused = false;
         perks = new ArrayList<Perk>();
-        intro = false;
+        running = false;
         start = true;
-        game = false;
-        LIVES = 5;
+        this.height = height;
+        this.title = title;
+        this.width = width;
     }
     
+    /**
+     * To get the ball object of the game
+     * @return an <code>ball</code> object
+     */
+    public Ball getBall() {
+        return ball;
+    }
+    
+    /**
+     * To get the height of the game window
+     * @return an <code>int</code> value with the height
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * Getter for the key manager
+     * @return an <code>key manager</code> object
+     */
+    public KeyManager getKeyManager() {
+        return keyManager;
+    }
+
+    /**
+     * To get the mouse manager object
+     * @return an <code>mouse Manager</code> object
+     */    
+    public MouseManager getMouseManager(){
+        return mouseManager;
+    }
+
+    /**
+     * To get the value of the lives for P1
+     * @return an <code>int</code> value of the lives of P1
+     */    
+    public int getLivesP1() {
+        return livesP1;
+    }
+
+    /**
+     * To get the value of the lives for P2
+     * @return an <code>int</code> value of the lives of P2
+     */    
+    public int getLivesP2() {
+        return livesP2;
+    }
+
+    /**
+     * To get the player 1 object of the game
+     * @return an <code>Elevator</code> object 
+     */
+    public Elevator getPlayer1() {
+        return player1;
+    }
+
+    /**
+     * To get the player 2 object of the game
+     * @return an <code>Elevator</code> object 
+     */
+    public Elevator getPlayer2() {
+        return player2;
+    }
+
+    /**
+     * To get the score of the game
+     * @return an <code>int</code> value with the score
+     */
+    public int getScore() {
+        return score;
+    }
+    /**
+     * To get the title of the game
+     * @return an <code>String</code> value with the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
     /**
      * To get the width of the game window
      * @return an <code>int</code> value with the width
@@ -79,51 +160,99 @@ public class Game implements Runnable{
     }
 
     /**
-     * To get the height of the game window
-     * @return an <code>int</code> value with the height
-     */
-    public int getHeight() {
-        return height;
-    }
-
-    public int getScore() {
-        return score;
-    }
-    
-    /**
-     * Getter for player 1
-     * @return the player 1
-     */
-    public Elevator getPlayer1() {
-        return player1;
-    }
-    
-    /**
-     * Getter for player 2
-     * @return the player 2
-     */
-    public Elevator getPlayer2() {
-        return player2;
-    }
-
-    public Ball getBall() {
-        return ball;
-    }
-    
-    /**
-     * Getter for the death status of the game
-     * @return the death status of the game
+     * To get the death satus of the game
+     * @return an <code>boolean</code> value of the status
      */
     public boolean isDeath() {
         return death;
     }
 
     /**
+     * To know if the game is starting
+     * @return an <code>boolean</code> value
+     */
+    public boolean isGame() {
+        return game;
+    }
+
+    /**
+     * To know if the game is on the intro
+     * @return an <code>boolean</code> value
+     */
+    public boolean isIntro() {
+        return intro;
+    }
+
+    /**
+     * To know if the game is on pause
+     * @return an <code>boolean</code> value
+     */
+    public boolean isPaused() {
+        return paused;
+    }
+
+    /**
+     * To know if the game is for one player
+     * @return an <code>boolean</code> value
+     */
+    public boolean isSolo() {
+        return solo;
+    }
+    
+    /**
+     * To know if the game is on the start
+     * @return an <code>boolean</code> value
+     */
+    public boolean isStart() {
+        return start;
+    }
+    
+    /**
      * Setter for the death status of the game
      * @param death the death status of the game
      */
     public void setDeath(boolean death) {
         this.death = death;
+    }
+
+    /**
+     * Setter for the status of the game
+     * @param game the status of the game
+     */
+    public void setGame(boolean game) {
+        this.game = game;
+    }
+
+    /**
+     * Setter for the status of the game
+     * @param intro the status of the game
+     */
+    public void setIntro(boolean intro) {
+        this.intro = intro;
+    }
+
+    /**
+     * Setter for the lives of the player 1e
+     * @param livesP1 the value of p1
+     */    
+    public void setLivesP1(int livesP1) {
+        this.livesP1 = livesP1;
+    }
+
+    /**
+     * Setter for the lives of the player 1e
+     * @param livesP2 the value of p2
+     */    
+    public void setLivesP2(int livesP2) {
+        this.livesP2 = livesP2;
+    }
+
+    /**
+     * Setter for the status of the game
+     * @param paused the status of the game
+     */
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 
     /**
@@ -134,54 +263,101 @@ public class Game implements Runnable{
         this.running = running;
     }
 
+    /**
+     * Setter for the score status of the game
+     * @param score the final score of the game
+     */
     public void setScore(int score) {
         this.score = score;
     }
+
+    /**
+     * Setter for the status of the game
+     * @param solo the status of the game
+     */
+    public void setSolo(boolean solo) {
+        this.solo = solo;
+    }
+
+    /**
+     * Setter for the status of the game
+     * @param start the status of the game
+     */
+    public void setStart(boolean start) {
+        this.start = start;
+    }
+
+    /**
+     * Setter for the tile of the game
+     * @param title the title of the game
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }    
     
     /**
-     * initializing the display window of the game
+     * initializing the first elements of the game
      */
     private void init() {
+        //To initializate the assets
         Assets.init();
+
+        //Creat for the first time all the game objects
         display = new Display(title, getWidth(), getHeight());
         ball = new Ball(800, 45, 57, this); 
-        building1 = new Building(12, 0, 120, 640, this);
-        building2 = new Building(892, 0, 120, 640, this);
-        player1 = new Elevator(60, 50, 94, 105, true, this, false);
-        player2 = new Elevator(870, 50, 94, 105, false, this, false);
         bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
         bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
-        livesP1 = LIVES;
-        livesP2 = LIVES;
+        building1 = new Building(12, 0, 120, 640, this);
+        building2 = new Building(892, 0, 120, 640, this);
         btn1 = new Button((this.getWidth()/2)-(336/2)-180,400,336,80,1,this);
         btn3 = new Button((this.getWidth()/2)-(336/2)+200,400,336,80,3,this);
         btn2 = new Button((this.getWidth()/2)-(456/2),this.getHeight()-120,456,80,2,this);
+        player1 = new Elevator(60, 50, 94, 105, true, this, false);
+        player2 = new Elevator(870, 50, 94, 105, false, this, false);
+        livesP1 = LIVES;
+        livesP2 = LIVES;
+
+        //To start the key and mouse manager
         display.getJframe().addKeyListener(keyManager);
         display.getJframe().addMouseListener(mouseManager);
         display.getJframe().addMouseMotionListener(mouseManager);
         display.getCanvas().addMouseListener(mouseManager);
         display.getCanvas().addMouseMotionListener(mouseManager); 
     }
-    
+
+    /**
+    * Reset all the objects of the game
+    */
     private void reset(){
+
+        //Create all the game objects for the reset
+
         ball = new Ball(800, 45, 57, this); 
+        bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
+        bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
         building1 = new Building(12, 0, 120, 640, this);
         building2 = new Building(892, 0, 120, 640, this);
         player1 = new Elevator(60, 50, 94, 105, true, this, false);
         player2 = new Elevator(870, 50, 94, 105, false, this, true);
-        bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
-        bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
         perks.clear();
+
     }
-    
+
+    /**
+     * To asing a random range for the position of the birds 
+     * @return an <code>int</code> whit the value of the range position 
+     */
     private int randomRange(int min, int max, boolean isPositive){ 
+        // define the random range
         int num = (int)(Math.random() * (max - min)) + min;
+        //If the movement is negative, change to positive
         if(!isPositive){
             num -= (-1);
         }
+        //return the range
         return num;
-    }
-      
+    } 
+    
     /**
      * Runs the game
      */
@@ -214,18 +390,6 @@ public class Game implements Runnable{
         }
         render(); // in case we want to display a losing or winning picture
         // stop(); we should use something like thread.sleep() and then close
-    }
-
-    /**
-     * Getter for the key manager
-     * @return the key manager of the game
-     */
-    public KeyManager getKeyManager() {
-        return keyManager;
-    }
-    
-    public MouseManager getMouseManager(){
-        return mouseManager;
     }
     
     /**
@@ -434,5 +598,5 @@ public class Game implements Runnable{
                 ie.printStackTrace();
             }           
         }
-    }
+    }    
 }
