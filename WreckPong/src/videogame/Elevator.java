@@ -31,6 +31,7 @@ public class Elevator extends Item{
      * @param type the type of the player
      * @param height the height of the player
      * @param game the copy of the game
+     * @param automatic flag for solo/multiplayer mode
      */
     public Elevator(int x, int y, int width, int height, boolean type, Game game, boolean automatic) {
         super(x, y, width, height);

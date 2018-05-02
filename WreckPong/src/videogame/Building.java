@@ -22,8 +22,14 @@ public class Building extends Item{
     private Game game;              // Reference to the game
     
      /**
-     * Constructor of the bird
-     */    
+      * Constructor for the building
+      * @param x the x-axis coordinate
+      * @param y the y-axis coordinate
+      * @param width the width of the building
+      * @param height the height of the building
+      * @param mainPlayer flag of being or not the main player
+      * @param game reference to the game
+      */
     public Building(int x, int y, int width, int height, boolean mainPlayer, Game game) {
         super(x,y,width,height);
         this.mainPlayer = mainPlayer;
@@ -58,7 +64,7 @@ public class Building extends Item{
     
  
     void damage(){
-        strength--;
+        setStrength(getStrength() - 1);
     }
 
     /**

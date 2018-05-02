@@ -17,8 +17,9 @@ public class Perk {
     int timesTicked;
     int lifeTime;
     Object obj;
+    Game game;
 
-    public Perk(int ID, int timesTicked, int lifeTime, Object obj) {
+    public Perk(int ID, int timesTicked, int lifeTime, Object obj, Game game) {
         this.ID = ID;
         this.timesTicked = timesTicked;
         this.lifeTime = lifeTime;
@@ -36,63 +37,92 @@ public class Perk {
     public int getTimesTicked() {
         return timesTicked;
     }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public void setLifeTime(int lifeTime) {
+        this.lifeTime = lifeTime;
+    }
+
+    public void setTimesTicked(int timesTicked) {
+        this.timesTicked = timesTicked;
+    }
     
     void execute(){
-        switch(ID){
+        switch(getID()){
             case 1:
                 // bigger
-                if(timesTicked == 0){
+                if(getTimesTicked() == 0){
                     Elevator e = (Elevator) obj;
-                    e.setHeight(e.getHeight() * 2);
-                    e.setWidth(e.getWidth() * 2);
+                    e.setHeight(e.getHeight() + 30);
+                    e.setWidth(e.getWidth() + 30);
+                    if(e.isType()){
+                        e.setX(e.getX() - 30);
+                    }
                 }
-                else if(timesTicked == lifeTime){
+                else if(getTimesTicked() == getLifeTime()){
                     Elevator e = (Elevator) obj;
-                    e.setHeight(e.getHeight() / 2);
-                    e.setWidth(e.getWidth() / 2);
+                    e.setHeight(e.getHeight() - 30);
+                    e.setWidth(e.getWidth() - 30);
+                    if(e.isType()){
+                        e.setX(e.getX() + 30);
+                    }
                 }
+                break;
             case 3:
                 // faster
-                if(timesTicked == 0){
+                if(getTimesTicked() == 0){
                     Elevator e = (Elevator) obj;
-                    e.setyVel(e.getyVel() * 2);
+                    e.setyVel(e.getyVel() + 2);
                 }
-                else if(timesTicked == lifeTime){
+                else if(getTimesTicked() == getLifeTime()){
                     Elevator e = (Elevator) obj;
-                    e.setyVel(e.getyVel() / 2);
+                    e.setyVel(e.getyVel() - 2);
                 }
-            case 5:
-                // health
+                break;
             case 2:
                 // smaller
-                if(timesTicked == 0){
+                if(getTimesTicked() == 0){
                     Elevator e = (Elevator) obj;
-                    e.setHeight(e.getHeight() / 2);
-                    e.setWidth(e.getWidth() / 2);
-                }
-                else if(timesTicked == lifeTime){
-                    Elevator e = (Elevator) obj;
-                    e.setHeight(e.getHeight() * 2);
-                    e.setWidth(e.getWidth() * 2);
-                }
-            case 4:
-                // slower
-                if(timesTicked == 0){
-                    Elevator e = (Elevator) obj;
-                    if(e.getyVel() > 1){
-                        e.setyVel(e.getyVel() / 2);
+                    if(e.getHeight() > 30 && e.getWidth() > 30){
+                        e.setHeight(e.getHeight() - 30);
+                        e.setWidth(e.getWidth() - 30);
+                        if(e.isType()){
+                            e.setX(e.getX() + 30);
+                        }
                     }
                     else{
-                        timesTicked = lifeTime;
+                        setTimesTicked(getLifeTime());
                     }
                 }
-                else if(timesTicked == lifeTime){
+                else if(getTimesTicked() == getLifeTime()){
                     Elevator e = (Elevator) obj;
-                    e.setyVel(e.getyVel() * 2);
+                    e.setHeight(e.getHeight() + 30);
+                    e.setWidth(e.getWidth() + 30);
+                    if(e.isType()){
+                        e.setX(e.getX() - 30);
+                    }
                 }
-            case 6:
-                // take a hit
+                break;
+            case 4:
+                // slower
+                if(getTimesTicked() == 0){
+                    Elevator e = (Elevator) obj;
+                    if(e.getyVel() > 1){
+                        e.setyVel(e.getyVel() - 2);
+                    }
+                    else{
+                        setTimesTicked(getLifeTime());
+                    }
+                }
+                else if(getTimesTicked() == getLifeTime()){
+                    Elevator e = (Elevator) obj;
+                    e.setyVel(e.getyVel() + 2);
+                }
+                break;
         }
-        timesTicked++;
+        setTimesTicked(getTimesTicked() + 1);
     }
 }

@@ -64,7 +64,7 @@ public class Game implements Runnable{
         instructions = false;
         intro = false;
         keyManager = new KeyManager();
-        LIVES = 5;
+        LIVES = 1;
         mouseManager = new MouseManager();
         paused = false;
         perks = new ArrayList<Perk>();
@@ -160,6 +160,14 @@ public class Game implements Runnable{
      */
     public int getWidth() {
         return width;
+    }
+
+    /**
+     * To get the running status of the game
+     * @return an <code>boolean</code> value of the status
+     */
+    public boolean isRunning() {
+        return running;
     }
 
     /**
@@ -304,14 +312,11 @@ public class Game implements Runnable{
     private void init() {
         //To initializate the assets
         Assets.init();
-
-        //Creat for the first time all the game objects
+        //Create for the first time all the game objects
         display = new Display(title, getWidth(), getHeight());
         ball = new Ball(800, 45, 57, this); 
         bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
-        bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
-//        building1 = new Building(12, 0, 120, 640, this);
-//        building2 = new Building(892, 0, 120, 640, this);
+        bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, false, 1, this);
         btn1 = new Button((this.getWidth()/2)-(336/2)-180,400,336,80,1,this);
         btn3 = new Button((this.getWidth()/2)-(336/2)+200,400,336,80,3,this);
         btn2 = new Button((this.getWidth()/2)-(549/2),this.getHeight()-120,549,60,2,this);
@@ -340,15 +345,12 @@ public class Game implements Runnable{
 
         ball = new Ball(800, 45, 57, this); 
         bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
-        bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
-//        building1 = new Building(12, 0, 120, 640, this);
-//        building2 = new Building(892, 0, 120, 640, this);
+        bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, false, 1, this);
         building1 = new Building(12, 0, 120, 640, true, this);
         building2 = new Building(892, 0, 120, 640, false, this);
         player1 = new Elevator(60, 50, 94, 105, true, this, false);
-        player2 = new Elevator(870, 50, 94, 105, false, this, true);
+        player2 = new Elevator(870, 50, 94, 105, false, this, isSolo());
         perks.clear();
-
     }
 
     /**
@@ -396,15 +398,14 @@ public class Game implements Runnable{
                 delta--;
              }
         }
-        render(); // in case we want to display a losing or winning picture
-        // stop(); we should use something like thread.sleep() and then close
+        render();
     }
     
     /**
      * Updates the elements of the game
      */
     private void tick() {
-        if(intro){
+        if(isIntro()){
             // nothing here
         }
         else if(instructions){
@@ -416,20 +417,20 @@ public class Game implements Runnable{
                    }
                }
         }
-        else if(start){
+        else if(isStart()){
             getKeyManager().tick();
             if(this.getMouseManager().isLeft())
             {
                 if(btn1.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
-                    start = false;
-                    game = true;
-                    solo = true;
+                    setStart(false);
+                    setGame(true);
+                    setSolo(true);
                     player2.setAutomatic(true);
                 }
                 if(btn3.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
-                    start = false;
-                    game = true;
-                    solo = false;
+                    setStart(false);
+                    setGame(true);
+                    setSolo(false);
                     player2.setAutomatic(false);
                 }
                 if(btn2.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
@@ -438,13 +439,13 @@ public class Game implements Runnable{
                 }
             }                
         }
-        else if(game){
+        else if(isGame()){
             getKeyManager().tick();
             if(getKeyManager().isPause()){
                 getKeyManager().setPause(false);
-                paused = !paused;
+                setPaused(!isPaused());
             }
-            if(!paused){
+            if(!isPaused()){
                 player1.tick();
                 player2.tick();
                 ball.tick();
@@ -453,6 +454,7 @@ public class Game implements Runnable{
                 // check for ball vs building1 collision
                 if(ball.intersects(building1)){
                     ball.turnAround();
+                    Assets.collisionBallBuilding.play();
                     while(ball.intersects(player1)){
                         ball.tick();
                     }
@@ -461,6 +463,7 @@ public class Game implements Runnable{
                 // check for ball vs building2 collision
                 else if(ball.intersects(building2)){
                     ball.turnAround();
+                    Assets.collisionBallBuilding.play();
                     while(ball.intersects(player2)){
                         ball.tick();
                     }
@@ -469,6 +472,7 @@ public class Game implements Runnable{
                 else{
                     // check for ball vs player collision
                     if(ball.intersects(player1) || ball.intersects(player2)){
+                        Assets.collisionBallElevator.play();
                         ball.turnAround();
                     }      
                 }
@@ -484,14 +488,21 @@ public class Game implements Runnable{
                 if(bird1.intersects(player2)){
                     // add the perk
                     int perkID = bird1.getPower();
+                    System.out.println("" + perkID);
+                    if(perkID % 2 == 1){
+                        Assets.goodBirdElevator.play();
+                    }
+                    else{
+                        Assets.evilBirdElevator.play();
+                    }
                     if(perkID <= 4){
-                        perks.add(new Perk(perkID, 0, 250, player2));
+                        perks.add(new Perk(perkID, 0, 250, player2, this));
                     }
                     else{
                         if(perkID == 5 && building2.getStrength() < 7){
                             building2.setStrength(building2.getStrength() + 1);
                         }
-                        else if(building2.getStrength() > 0){
+                        else if(perkID == 6 && building2.getStrength() > 0){
                             building2.damage();
                         }
                     }
@@ -501,14 +512,21 @@ public class Game implements Runnable{
                 if(bird2.intersects(player1)){
                     // add the perk
                     int perkID = bird2.getPower();
+                    System.out.println("" + perkID);
+                    if(perkID % 2 == 1){
+                        Assets.goodBirdElevator.play();
+                    }
+                    else{
+                        Assets.evilBirdElevator.play();
+                    }
                     if(perkID <= 4){
-                        perks.add(new Perk(perkID, 0, 250, player1));
+                        perks.add(new Perk(perkID, 0, 250, player1, this));
                     }
                     else{
                         if(perkID == 5 && building1.getStrength() < 7){
                             building1.setStrength(building1.getStrength() + 1);
                         }
-                        else if(building1.getStrength() > 0){
+                        else if(perkID == 6 && building1.getStrength() > 0){
                             building1.damage();
                         }
                     }
@@ -538,13 +556,16 @@ public class Game implements Runnable{
                 // check if a player has died
                 if(building1.getStrength() == 0){
                     // remove a life and reset everything
-                    livesP1--;
+                    setLivesP1(getLivesP1() - 1);
                     reset();
                 }
                 if(building2.getStrength() == 0){
                     // remove a life and reset everything
-                    livesP2--;
+                    setLivesP2(getLivesP2() - 1);
                     reset();
+                }
+                if(getLivesP1() == 0 || getLivesP2() == 0){
+                    setRunning(false);
                 }
             }
         }
@@ -568,34 +589,33 @@ public class Game implements Runnable{
         else{
             g = bs.getDrawGraphics();          
             // render the elements of the game
-            if(running){
-                if(intro)
-                {                                        
-                    g.drawImage(Assets.background, 0, 0, width, height, null);
+            if(isRunning()){
+                if(isIntro()){          
+                    g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null);
                 }
                 else if(instructions){
                     g.drawImage(Assets.background, 0, 0, width, height, null);                    
                     btn4.render(g);                        
                 }
-                else if(start && !instructions){
+                else if(isStart() && !instructions){
                     g.drawImage(Assets.startBackground, 0, 0, width, height, null);                    
                     btn1.render(g);
                     btn2.render(g);
                     btn3.render(g);                  
                 }
-                else if(game){
+                else if(isGame()){
                     g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null); // 2 0 1
-                    if(ball.getY() < getHeight() / 3){
-                        g.drawImage(Assets.craneSprites[2], 400, 50, 512, 640, null);
+                    if(ball.getX() < getWidth() / 3){
+                        g.drawImage(Assets.craneSprites[1], 300, -10, 512, 640, null);
                     }
-                    else if(ball.getY() < getHeight() * 2 / 3){
-                        g.drawImage(Assets.craneSprites[0], 400, 50, 512, 640, null);
+                    else if(ball.getX() < getWidth() * 2 / 3){
+                        g.drawImage(Assets.craneSprites[0], 300, -10, 512, 640, null);
                     }
                     else{
-                        g.drawImage(Assets.craneSprites[1], 400, 50, 512, 640, null);
+                        g.drawImage(Assets.craneSprites[2], 300, -10, 512, 640, null);
                     }
-                    g.drawImage(Assets.health1Sprites[5 - livesP1], 225, 10, 256, 40, null);
-                    g.drawImage(Assets.health2Sprites[5 - livesP2], getWidth() - 225 - 256, 10, 256, 40, null);
+                    g.drawImage(Assets.health1Sprites[5 - getLivesP1()], 225, 10, 256, 40, null);
+                    g.drawImage(Assets.health2Sprites[5 - getLivesP2()], getWidth() - 225 - 256, 10, 256, 40, null);
                     ball.render(g);
                     building1.render(g);
                     building2.render(g);
@@ -607,6 +627,16 @@ public class Game implements Runnable{
                 bs.show();
                 g.dispose();
             }
+            else{
+                if(getLivesP1() == 0){
+                    g.drawImage(Assets.p2Won, 0, 0, getWidth(), getHeight(), null);
+                }
+                else{
+                    g.drawImage(Assets.p1Won, 0, 0, getWidth(), getHeight(), null);
+                }
+                bs.show();
+                g.dispose();
+            }
         }
     }
     
@@ -614,8 +644,8 @@ public class Game implements Runnable{
      * setting the thead for the game
      */
     public synchronized void start() {
-        if (!running) {
-            running = true;
+        if (!isRunning()) {
+            setRunning(true);
             thread = new Thread(this);
             thread.start();
         }
@@ -625,8 +655,8 @@ public class Game implements Runnable{
      * stopping the thread
      */
     public synchronized void stop() {
-        if (running) {
-            running = false;
+        if (isRunning()) {
+            setRunning(false);
             try {
                 thread.join();
             } catch (InterruptedException ie) {

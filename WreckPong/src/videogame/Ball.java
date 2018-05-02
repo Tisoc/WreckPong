@@ -22,6 +22,7 @@ public class Ball extends Item{
     private Game game;              // Reference to the game
     private int zoneSize;           // size of each zone
     private int curZone;            // the curzone
+    private int timesTicked;       // number of times the ball has been ticked
 
     /**
      * Constructor of the ball
@@ -34,10 +35,11 @@ public class Ball extends Item{
         super(512 - width / 2, ropeLength - 292 - height, width, height);
         this.ropeLength = ropeLength;
         this.game = game;
-        xvel = 5;
+        xvel = 3;
         zoneSize = game.getWidth() / 2;
         curZone = 0;
         ropeLengthChange = 0;
+        timesTicked = 0;
     }
 
     /**
@@ -72,6 +74,34 @@ public class Ball extends Item{
         return ropeLength;
     }
 
+    public int getRopeLengthChange() {
+        return ropeLengthChange;
+    }
+
+    public int getTimesTicked() {
+        return timesTicked;
+    }
+
+    public int getCurZone() {
+        return curZone;
+    }
+
+    public int getZoneSize() {
+        return zoneSize;
+    }
+
+    public void setCurZone(int curZone) {
+        this.curZone = curZone;
+    }
+
+    public void setZoneSize(int zoneSize) {
+        this.zoneSize = zoneSize;
+    }
+
+    public void setTimesTicked(int timesTicked) {
+        this.timesTicked = timesTicked;
+    }
+
     /**
      * Setter got the x-axis velocity
      * @param xvel the x-axis velocity
@@ -103,12 +133,17 @@ public class Ball extends Item{
     public void setRopeLength(int ropeLength) {
         this.ropeLength = ropeLength;
     }
+
+    public void setRopeLengthChange(int ropeLengthChange) {
+        this.ropeLengthChange = ropeLengthChange;
+    }
     
     public void turnAround(){
         setXvel(getXvel() * (-1));
+        setX(getX() + 5 * getXvel());
         // we will also reset the zone size
-        zoneSize = game.getWidth() / ((int)(Math.random() * 4) + 1);
-        curZone = getX() / zoneSize;
+        setZoneSize(game.getWidth() / ((int)(Math.random() * 4) + 1));
+        setCurZone(getX() / getZoneSize());
     }
 
     /**
@@ -117,19 +152,19 @@ public class Ball extends Item{
     @Override
     public void tick() {
         // check what zone are we in
-        int newZone = getX() / zoneSize;
-        if(newZone != curZone){
-            curZone = newZone;
+        int newZone = getX() / getZoneSize();
+        if(newZone != getCurZone()){
+            setCurZone(newZone);
             // change the rope length change rate
             int newRopeLengthChange = (int)(Math.random() * 9 - 4);
-            ropeLengthChange = newRopeLengthChange;
+            setRopeLengthChange(newRopeLengthChange);
         }
-        setRopeLength(getRopeLength() + ropeLengthChange);
+        setRopeLength(getRopeLength() + getRopeLengthChange());
         if(getY() + getHeight() + 5 >= game.getHeight()){
-            ropeLengthChange = -3;
+            setRopeLengthChange(-3);
         }
-        else if(getY() <= 10){
-            ropeLengthChange = 3;
+        else if(getY() <= 15){
+            setRopeLengthChange(3);
         }
         // update x-axis coordinate
         setX( getX() + getXvel() );
@@ -138,6 +173,8 @@ public class Ball extends Item{
         double dy = Math.sqrt(l * l - Math.pow(Math.abs(512.0 - (double)getX()), 2));
         // adjust y-axis coordinate
         setY((int)dy - 292);
+        setXvel( (int)((getTimesTicked() / 1500 + 4) * Math.signum((double)getXvel()) ));
+        setTimesTicked(getTimesTicked() + 1);
     }
 
     /**
