@@ -56,18 +56,34 @@ public class Elevator extends Item{
         return type;
     }
 
+    /**
+     * Getter for the solo mode status
+     * @return the solo mode status
+     */
     public boolean isAutomatic() {
         return automatic;
     }
 
+    /**
+     * Getter for the y-axis velocity
+     * @return the y-axis velocity
+     */
     public int getyVel() {
         return yVel;
     }
-
+    
+    /**
+     * Setter for the y-axis velocity
+     * @param yVel the y-axis velocity
+     */
     public void setyVel(int yVel) {
         this.yVel = yVel;
     }
 
+    /**
+     * Setter for the solo mode status
+     * @param automatic the solo mode status
+     */
     public void setAutomatic(boolean automatic) {
         this.automatic = automatic;
     }

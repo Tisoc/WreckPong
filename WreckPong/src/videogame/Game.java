@@ -64,7 +64,7 @@ public class Game implements Runnable{
         instructions = false;
         intro = false;
         keyManager = new KeyManager();
-        LIVES = 1;
+        LIVES = 5;
         mouseManager = new MouseManager();
         paused = false;
         perks = new ArrayList<Perk>();
