@@ -49,6 +49,7 @@ public class Assets {
     public static BufferedImage button2;            // to store button 2 image
     public static BufferedImage button3;            // to store button 3 image
     public static BufferedImage button4;            // to store button 4 image
+    public static BufferedImage button5;            // to store button 5 image
 
     public static BufferedImage[] player1Sprites;   // to store the array of player1 image
     public static BufferedImage[] player2Sprites;   // to store the array of player1 image
@@ -84,6 +85,7 @@ public class Assets {
         button2 = ImageLoader.loadImage("/images/HOW_TO_PLAY_Button.png");
         button3 = ImageLoader.loadImage("/images/MULTI_Button.png");
         button4 = ImageLoader.loadImage("/images/BACK_Button.png");
+        button5 = ImageLoader.loadImage("/images/START_Button.png");
         background = ImageLoader.loadImage("/images/Background.png");
         player1 = ImageLoader.loadImage("/images/p1.png");
         player2 = ImageLoader.loadImage("/images/p2.png");

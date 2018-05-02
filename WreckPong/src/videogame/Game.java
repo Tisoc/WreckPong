@@ -25,6 +25,7 @@ public class Game implements Runnable{
     private Button btn2;                // The option button
     private Button btn3;                // The multiplayer button
     private Button btn4;                // The multiplayer button
+    private Button btn5;                // To start the game
     private Building building1;         // The player1's building of the game
     private Building building2;         // The player2's building of the game
     private boolean death;              // Death status
@@ -43,6 +44,7 @@ public class Game implements Runnable{
     private ArrayList<Perk> perks;      // Array of perks
     private Elevator player1;           // The main player of the game
     private Elevator player2;           // The secondary player of the game
+    private boolean pregame;            // TO teach how to play
     private boolean running;            // To set the game
     private int score;                  // Score of the player - COMPLETE SOLO MODE
     private boolean solo;               // Solo game status
@@ -68,6 +70,7 @@ public class Game implements Runnable{
         mouseManager = new MouseManager();
         paused = false;
         perks = new ArrayList<Perk>();
+        pregame = false;
         running = false;
         start = true;
         this.height = height;
@@ -321,6 +324,7 @@ public class Game implements Runnable{
         btn3 = new Button((this.getWidth()/2)-(336/2)+200,400,336,80,3,this);
         btn2 = new Button((this.getWidth()/2)-(549/2),this.getHeight()-120,549,60,2,this);
         btn4 = new Button((this.getWidth())-(227),this.getHeight()-90,177,60,4,this);
+        btn5 = new Button((this.getWidth())-(227),this.getHeight()-90,177,60,5,this);
         building1 = new Building(12, 0, 120, 640, true, this);
         building2 = new Building(892, 0, 120, 640, false, this);
         player1 = new Elevator(60, 50, 94, 105, true, this, false);
@@ -336,6 +340,9 @@ public class Game implements Runnable{
         display.getCanvas().addMouseMotionListener(mouseManager); 
     }
     
+    /**
+     * Reset the game
+     */
     private void resetGame(){
         ball = new Ball(800, 45, 57, this); 
         bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
@@ -439,9 +446,7 @@ public class Game implements Runnable{
             {
                 if(btn1.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
                     setStart(false);
-                    setGame(true);
-                    setSolo(true);
-                    player2.setAutomatic(true);
+                    pregame = true;
                 }
                 if(btn3.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
                     setStart(false);
@@ -454,6 +459,18 @@ public class Game implements Runnable{
                     instructions = true;
                 }
             }                
+        }
+        else if(pregame){
+            if(this.getMouseManager().isLeft())
+            {
+                if(btn4.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
+                    pregame = false;
+                    setGame(true);
+                    setSolo(true);
+                    player2.setAutomatic(true);
+                }
+
+            }                            
         }
         else if(isGame()){
             getKeyManager().tick();
@@ -618,6 +635,11 @@ public class Game implements Runnable{
                     btn1.render(g);
                     btn2.render(g);
                     btn3.render(g);                  
+                }
+                else if(pregame)
+                {
+                    g.drawImage(Assets.howToPlayBackground, 0, 0, width, height, null);                    
+                    btn5.render(g);                                            
                 }
                 else if(isGame()){
                     g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null); // 2 0 1
