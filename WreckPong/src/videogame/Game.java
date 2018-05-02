@@ -319,8 +319,8 @@ public class Game implements Runnable{
         bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, false, 1, this);
         btn1 = new Button((this.getWidth()/2)-(336/2)-180,400,336,80,1,this);
         btn3 = new Button((this.getWidth()/2)-(336/2)+200,400,336,80,3,this);
-        btn2 = new Button((this.getWidth()/2)-(456/2),this.getHeight()-120,456,80,2,this);
-        btn4 = new Button((this.getWidth()/3)-(459/3),this.getHeight()-12,456,80,2,this);
+        btn2 = new Button((this.getWidth()/2)-(549/2),this.getHeight()-120,549,60,2,this);
+        btn4 = new Button((this.getWidth())-(227),this.getHeight()-90,177,60,4,this);
         building1 = new Building(12, 0, 120, 640, true, this);
         building2 = new Building(892, 0, 120, 640, false, this);
         player1 = new Elevator(60, 50, 94, 105, true, this, false);
@@ -594,7 +594,7 @@ public class Game implements Runnable{
                     g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null);
                 }
                 else if(instructions){
-                    g.drawImage(Assets.background, 0, 0, width, height, null);                    
+                    g.drawImage(Assets.howToPlayBackground, 0, 0, width, height, null);                    
                     btn4.render(g);                        
                 }
                 else if(isStart() && !instructions){
@@ -630,9 +630,11 @@ public class Game implements Runnable{
             else{
                 if(getLivesP1() == 0){
                     g.drawImage(Assets.p2Won, 0, 0, getWidth(), getHeight(), null);
+                    btn4.render(g);                        
                 }
                 else{
                     g.drawImage(Assets.p1Won, 0, 0, getWidth(), getHeight(), null);
+                    btn4.render(g);                        
                 }
                 bs.show();
                 g.dispose();
