@@ -335,6 +335,22 @@ public class Game implements Runnable{
         display.getCanvas().addMouseListener(mouseManager);
         display.getCanvas().addMouseMotionListener(mouseManager); 
     }
+    
+    private void resetGame(){
+        ball = new Ball(800, 45, 57, this); 
+        bird1 = new Bird(randomRange(0, 5000, false), randomRange(50, getHeight() - 50, true), 50, 30, true, 1, this);
+        bird2 = new Bird(randomRange(0, 5000, true), randomRange(50, getHeight() - 50, true), 50, 30, false, 1, this);
+        btn1 = new Button((this.getWidth()/2)-(336/2)-180,400,336,80,1,this);
+        btn3 = new Button((this.getWidth()/2)-(336/2)+200,400,336,80,3,this);
+        btn2 = new Button((this.getWidth()/2)-(549/2),this.getHeight()-120,549,60,2,this);
+        btn4 = new Button((this.getWidth())-(227),this.getHeight()-90,177,60,4,this);
+        building1 = new Building(12, 0, 120, 640, true, this);
+        building2 = new Building(892, 0, 120, 640, false, this);
+        player1 = new Elevator(60, 50, 94, 105, true, this, false);
+        player2 = new Elevator(870, 50, 94, 105, false, this, false);
+        livesP1 = LIVES;
+        livesP2 = LIVES;
+    }
 
     /**
     * Reset all the objects of the game
