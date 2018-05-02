@@ -24,6 +24,7 @@ public class Game implements Runnable{
     private Button btn1;                // The one player button
     private Button btn2;                // The option button
     private Button btn3;                // The multiplayer button
+    private Button btn4;                // The multiplayer button
     private Building building1;         // The player1's building of the game
     private Building building2;         // The player2's building of the game
     private boolean death;              // Death status
@@ -31,6 +32,7 @@ public class Game implements Runnable{
     private Graphics g;                 // To paint objects
     private boolean game;               // To know if we are playing
     private int height;                 // Height of the window
+    private boolean instructions;       // To know if we are at the instruction
     private boolean intro;              // To validate if the game is in the intro
     private KeyManager keyManager;      // To manage the keyboard
     final private int LIVES;            // Initial amount of lives
@@ -59,6 +61,7 @@ public class Game implements Runnable{
     public Game(String title, int width, int height) {
         death = false;
         game = false;
+        instructions = false;
         intro = false;
         keyManager = new KeyManager();
         LIVES = 1;
@@ -317,6 +320,7 @@ public class Game implements Runnable{
         btn1 = new Button((this.getWidth()/2)-(336/2)-180,400,336,80,1,this);
         btn3 = new Button((this.getWidth()/2)-(336/2)+200,400,336,80,3,this);
         btn2 = new Button((this.getWidth()/2)-(456/2),this.getHeight()-120,456,80,2,this);
+        btn4 = new Button((this.getWidth()/3)-(459/3),this.getHeight()-12,456,80,2,this);
         building1 = new Building(12, 0, 120, 640, true, this);
         building2 = new Building(892, 0, 120, 640, false, this);
         player1 = new Elevator(60, 50, 94, 105, true, this, false);
@@ -404,7 +408,17 @@ public class Game implements Runnable{
         if(isIntro()){
             // nothing here
         }
+        else if(instructions){
+            if(this.getMouseManager().isLeft())
+               {
+                   if(btn4.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
+                       instructions = false;
+                       start = true;
+                   }
+               }
+        }
         else if(isStart()){
+            getKeyManager().tick();
             if(this.getMouseManager().isLeft())
             {
                 if(btn1.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
@@ -418,6 +432,10 @@ public class Game implements Runnable{
                     setGame(true);
                     setSolo(false);
                     player2.setAutomatic(false);
+                }
+                if(btn2.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
+                    start = false;
+                    instructions = true;
                 }
             }                
         }
@@ -575,8 +593,12 @@ public class Game implements Runnable{
                 if(isIntro()){          
                     g.drawImage(Assets.background, 0, 0, getWidth(), getHeight(), null);
                 }
-                else if(isStart()){
-                    g.drawImage(Assets.startBackground, 0, 0, getWidth(), getHeight(), null);                    
+                else if(instructions){
+                    g.drawImage(Assets.background, 0, 0, width, height, null);                    
+                    btn4.render(g);                        
+                }
+                else if(isStart() && !instructions){
+                    g.drawImage(Assets.startBackground, 0, 0, width, height, null);                    
                     btn1.render(g);
                     btn2.render(g);
                     btn3.render(g);                  
