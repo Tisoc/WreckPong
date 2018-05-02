@@ -24,6 +24,7 @@ public class Assets {
     
     public static BufferedImage startBackground;    // to store start background image
     public static BufferedImage background;         // to store background image
+    public static BufferedImage howToPlayBackground;// to store the instructions of the game
     public static BufferedImage player1;            // to store the player1 image
     public static BufferedImage player2;            // to store the player2 image
     public static BufferedImage building1;          // to store the building1 image
@@ -78,6 +79,7 @@ public class Assets {
         p1Won = ImageLoader.loadImage("/images/p1Won.png");
         p2Won = ImageLoader.loadImage("/images/p2Won.png");
         startBackground = ImageLoader.loadImage("/images/intro_game.png");
+        howToPlayBackground = ImageLoader.loadImage("/images/howToPlayBackground.png");
         button1 = ImageLoader.loadImage("/images/SOLO_Button.png");
         button2 = ImageLoader.loadImage("/images/OPTIONS_Button.png");
         button3 = ImageLoader.loadImage("/images/MULTI_Button.png");
