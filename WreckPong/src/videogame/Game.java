@@ -66,7 +66,7 @@ public class Game implements Runnable{
         instructions = false;
         intro = false;
         keyManager = new KeyManager();
-        LIVES = 5;
+        LIVES = 1;
         mouseManager = new MouseManager();
         paused = false;
         perks = new ArrayList<Perk>();
@@ -421,14 +421,30 @@ public class Game implements Runnable{
                 delta--;
              }
         }
-        render();
+        stop();
     }
     
     /**
      * Updates the elements of the game
      */
     private void tick() {
-        if(isIntro()){
+        if(isDeath()){
+            System.out.println("Acknowledged death");
+            // tick the key manager
+            if(this.getMouseManager().isLeft())
+            {
+                if(btn4.contains(this.getMouseManager().getX(), this.getMouseManager().getY())){
+                    resetGame();
+                    setStart(true);
+                    setGame(false);
+                    setDeath(false);
+                    setIntro(false);
+                    instructions = false;
+                    
+                }
+            }
+        }
+        else if(isIntro()){
             // nothing here
         }
         else if(instructions){
@@ -598,7 +614,11 @@ public class Game implements Runnable{
                     reset();
                 }
                 if(getLivesP1() == 0 || getLivesP2() == 0){
-                    setRunning(false);
+                    setDeath(true);
+                    setGame(false);
+                    instructions = false;
+                    setStart(false);
+                    setIntro(false);
                 }
             }
         }
@@ -662,17 +682,15 @@ public class Game implements Runnable{
                     bird1.render(g);
                     bird2.render(g);
                 }
-                bs.show();
-                g.dispose();
-            }
-            else{
-                if(getLivesP1() == 0){
-                    g.drawImage(Assets.p2Won, 0, 0, getWidth(), getHeight(), null);
-                    btn4.render(g);                        
-                }
-                else{
-                    g.drawImage(Assets.p1Won, 0, 0, getWidth(), getHeight(), null);
-                    btn4.render(g);                        
+                else if(isDeath()){
+                    if(getLivesP1() == 0){
+                        g.drawImage(Assets.p2Won, 0, 0, getWidth(), getHeight(), null);
+                        btn4.render(g);                        
+                    }
+                    else{
+                        g.drawImage(Assets.p1Won, 0, 0, getWidth(), getHeight(), null);
+                        btn4.render(g);                        
+                    }
                 }
                 bs.show();
                 g.dispose();
