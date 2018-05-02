@@ -314,7 +314,8 @@ public class Game implements Runnable{
 //        building2 = new Building(892, 0, 120, 640, this);
         btn1 = new Button((this.getWidth()/2)-(336/2)-180,400,336,80,1,this);
         btn3 = new Button((this.getWidth()/2)-(336/2)+200,400,336,80,3,this);
-        btn4 = new Button((this.getWidth()/3)-(459/3),this.getHeight()-12,456,80,2,this);
+        btn2 = new Button((this.getWidth()/2)-(549/2),this.getHeight()-120,549,60,2,this);
+        btn4 = new Button((this.getWidth())-(227),this.getHeight()-120,177,60,4,this);
         building1 = new Building(12, 0, 120, 640, true, this);
         building2 = new Building(892, 0, 120, 640, false, this);
         player1 = new Elevator(60, 50, 94, 105, true, this, false);
