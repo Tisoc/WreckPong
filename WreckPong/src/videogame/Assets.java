@@ -14,13 +14,13 @@ import java.awt.image.BufferedImage;
  * @author Sergio Sanchez Martinez (A00809693)
  */
 public class Assets {
-    public static SoundClip collisionBallBuilding;
-    public static SoundClip collisionBallElevator;
-    public static SoundClip collisionBirdBuilding;
-    public static SoundClip elevatorMove;
-    public static SoundClip goodBirdElevator;
-    public static SoundClip evilBirdElevator;
-    public static SoundClip birdSpawns;
+    public static SoundClip collisionBallBuilding;  // to store the sound of collision ball vs building
+    public static SoundClip collisionBallElevator;  // to store the sound of collision ball vs elevator
+    public static SoundClip collisionBirdBuilding;  // to store the sound of collision bird vs building
+    public static SoundClip elevatorMove;           // to store the sound of the elevator moving
+    public static SoundClip goodBirdElevator;       // to store the sound of collision good bird vs elevator
+    public static SoundClip evilBirdElevator;       // to store the sound of collision evil bird vs elevator
+    public static SoundClip birdSpawns;             // to store the sound of a bird passing by
     
     public static BufferedImage startBackground;    // to store start background image
     public static BufferedImage background;         // to store background image
@@ -34,6 +34,8 @@ public class Assets {
     public static BufferedImage health1;            // to store the health progress1 image
     public static BufferedImage health2;            // to store the health progress1 image
     public static BufferedImage crane;              // to store the  crane image
+    public static BufferedImage p1Won;              // player 1 wins
+    public static BufferedImage p2Won;              // player 2 wins
 
     public static BufferedImage ball;               // to store the wrecking ball image
 
@@ -69,8 +71,11 @@ public class Assets {
         goodBirdElevator = new SoundClip("/sounds/pajarobueno_elevador.wav");
         evilBirdElevator = new SoundClip("/sounds/pajaromalo_elevador.wav");
         birdSpawns = new SoundClip("/sounds/sonido_pajaroaparece.wav"); 
+        
 
         //asinging the resources
+        p1Won = ImageLoader.loadImage("/images/p1Won.png");
+        p2Won = ImageLoader.loadImage("/images/p2Won.png");
         startBackground = ImageLoader.loadImage("/images/intro_game.png");
         button1 = ImageLoader.loadImage("/images/SOLO_Button.png");
         button2 = ImageLoader.loadImage("/images/OPTIONS_Button.png");
@@ -81,8 +86,8 @@ public class Assets {
         building1 = ImageLoader.loadImage("/images/buildingP1.png");
         building2 = ImageLoader.loadImage("/images/buildingP2.png");
         ball = ImageLoader.loadImage("/images/wreckingBall.png");
-        bird1 = ImageLoader.loadImage("/images/blueBird.png");
-        bird2 = ImageLoader.loadImage("/images/greenBird.png");
+        bird1 = ImageLoader.loadImage("/images/greenBird.png");
+        bird2 = ImageLoader.loadImage("/images/blueBird.png");
         bird3 = ImageLoader.loadImage("/images/pinkBird.png");
         health1 = ImageLoader.loadImage("/images/healthP1.png");
         health2 = ImageLoader.loadImage("/images/healthP2.png");

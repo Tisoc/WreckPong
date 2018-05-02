@@ -22,8 +22,15 @@ public class Bird extends Item {
     int power;              // Asigning the power type
     
      /**
-     * Constructor of the bird
-     */
+      * Constructor for the bird
+      * @param x the x-axis coordinate
+      * @param y the y-axis coordinate
+      * @param width the width of the bird
+      * @param height the height of the bord
+      * @param goingRight flag of direction
+      * @param power ID of the power
+      * @param game reference to the game
+      */
      public Bird(int x, int y, int width, int height, boolean goingRight, int power, Game game) {
         super(x,y,width,height);
         this.game = game;
@@ -81,7 +88,7 @@ public class Bird extends Item {
         }
         setY( (int)(Math.random() * (game.getHeight() - 100) + 50) );
         // set a new random power
-        setPower( (int)( Math.random() * 4 ) + 1 );
+        setPower( (int)( Math.random() * 6 ) + 1 );
         int decision = (int)(Math.random() * 2);
         if(decision == 1){
             if(power % 2 == 1){
@@ -94,7 +101,6 @@ public class Bird extends Item {
             }
         }
         else{
-            System.out.println("" + decision + " ");
             this.animation = new Animation(Assets.bird3Sprites, 100);
         }
     }
