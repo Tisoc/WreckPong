@@ -34,7 +34,7 @@ public class Building extends Item{
         super(x,y,width,height);
         this.mainPlayer = mainPlayer;
         this.game = game;
-        this.strength = 7;
+        this.strength = 1;
     }
 
     /**
